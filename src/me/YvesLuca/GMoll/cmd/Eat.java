@@ -20,7 +20,7 @@ public class Eat implements CommandExecutor{
 		public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 				
 			if(label.equalsIgnoreCase("eat")) {
-				if(!(sender.hasPermission("feed.use"))) {
+				if(!(sender.hasPermission("eat.use"))) {
 					sender.sendMessage(ChatColor.DARK_RED + "You can't use this command!");
 					return true;	
 				}
