@@ -30,6 +30,7 @@ public class Main extends JavaPlugin implements Listener{
 	public void onDisable() {
 		
 	}
+	
 	public void registercmd() {
 		this.getCommand("die").setExecutor(new Die(this, ess));
 		this.getCommand("eat").setExecutor(new Eat(this));

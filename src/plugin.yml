@@ -1,5 +1,5 @@
 name: GMoll
-main: me.YvesLuca.GMoll
+main: me.YvesLuca.GMoll.Main
 version: 1.0
 api-version: 1.15
 author: Yves + Luca
