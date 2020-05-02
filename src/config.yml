@@ -1,0 +1,17 @@
+
+#the amount of money you loose upon death!
+lossPercentage: 0.02
+
+#heads in all lowercase
+burger:
+  lore: "Frisch von Mcces!"
+  name: "Burger"
+  id: "187ab05d-1d27-450b-bea8-a723fd1d3b4a"
+  value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZiNDhlMmI5NjljNGMxYjg2YzVmODJhMmUyMzc5OWY0YTZmMzFjZTAwOWE1ZjkyYjM5ZjViMjUwNTdiMmRkMCJ9fX0="
+  cost: 1000
+durrburger:
+  lore: "Komm doch mal bei uns in Greasy Grove vorbei!"
+  name: "Durr Burger"
+  id: "8301e4c1-d76a-4667-a782-9944431f1a59"
+  value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTZkOWQ2ZDFmMDE1ZjEyYzI4Yjg1MjUzN2NkNzQ2MzUzMzNkNTI5MWZmYmY5Y2I3ZTQ0NDI1YTU0MDQ1YjMwNSJ9fX0="
+  cost: 10000

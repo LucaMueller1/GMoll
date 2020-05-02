@@ -1,0 +1,12 @@
+name: GMoll
+main: me.YvesLuca.GMoll
+version: 1.0
+api-version: 1.15
+author: Yves + Luca
+depend: [NBTAPI, Essentials]
+
+commands:
+  gamedude:
+  ghead:
+    permission: gmoll.head
+  
