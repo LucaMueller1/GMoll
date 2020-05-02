@@ -33,7 +33,7 @@ public class Eat implements CommandExecutor{
 					sender.sendMessage(ChatColor.BLUE + "Du bist nicht hungrig!");
 					return true;
 				}
-				player.setFoodLevel((int) plugin.getConfig().getDouble("feed-amount"));
+				player.setFoodLevel((int) plugin.getConfig().getDouble("feedAmount"));
 				sender.sendMessage(ChatColor.GREEN + "War das nicht lecker?");
 				return true;
 			}

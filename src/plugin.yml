@@ -9,5 +9,9 @@ commands:
   gamedude:
   ghead:
     permission: gmoll.head
+  die:
+  eat:
+    permission: eat.use
+  love:
     
   
