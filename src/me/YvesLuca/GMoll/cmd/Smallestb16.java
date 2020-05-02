@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.earth2me.essentials.IEssentials;
 
+import at.pcgamingfreaks.MarriageMaster.Bukkit.MarriageMaster;
 import me.YvesLuca.GMoll.Main;
 
 	
@@ -16,10 +17,12 @@ public class Smallestb16 implements CommandExecutor{
 
 	private Main plugin;
 	private IEssentials ess;
+	private MarriageMaster mm;
 	
 	public Smallestb16(Main instance, IEssentials ess) {
 		plugin = instance;
 		this.ess = ess;
+		this.mm = (MarriageMaster) plugin.getServer().getPluginManager().getPlugin("MarriageMaster");
 	}
 	
 	@Override
@@ -29,6 +32,7 @@ public class Smallestb16 implements CommandExecutor{
 				Player p = (Player) sender;
 				Player smallestb16 = plugin.getServer().getPlayer("smallestb16");
 				p.teleport(smallestb16.getLocation());
+				mm.set
 			}
 			
 		}
