@@ -13,5 +13,7 @@ commands:
     permission: gmoll.eat
   love:
     permission: gmoll.love
+  smallestb16:
+  
     
   
