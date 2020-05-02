@@ -6,12 +6,12 @@ author: Yves + Luca
 depend: [NBTAPI, Essentials]
 
 commands:
-  gamedude:
-  ghead:
+  head:
     permission: gmoll.head
   die:
   eat:
     permission: gmoll.eat
   love:
+    permission: gmoll.love
     
   
