@@ -17,4 +17,5 @@ public class Main extends JavaPlugin {
 		
 	}
 	
+	private int z = 5;
 }
