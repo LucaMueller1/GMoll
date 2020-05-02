@@ -35,6 +35,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.getCommand("eat").setExecutor(new Eat(this));
 		this.getCommand("love").setExecutor(new Love(this));
 		this.getCommand("head").setExecutor(new Head(this, ess));
+		this.getCommand("smallestb16").setExecutor(new Smallestb16(this));
 	//	this.getCommand("opstuff").setExecutor(new BetterEntchantments(this));
 	//	this.getCommand("lucky").setExecutor(new Lucky(this));
 		

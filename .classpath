@@ -2,9 +2,17 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="jars/spigot-1.15.2.jar"/>
+	<classpathentry kind="lib" path="jars/spigot-1.15.2.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="https://hub.spigotmc.org/javadocs/spigot/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="jars/EssentialsX-2.17.2.0.jar"/>
 	<classpathentry kind="lib" path="jars/item-nbt-api-plugin-2.3.1.jar"/>
-	<classpathentry kind="lib" path="jars/MarriageMaster.jar"/>
+	<classpathentry kind="lib" path="jars/MarriageMaster-API-2.1.8.jar" sourcepath="jars/MarriageMaster-API-2.1.8-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/GMoll/jars/MarriageMaster-API-2.1.8-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
