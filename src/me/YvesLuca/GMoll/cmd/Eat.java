@@ -15,12 +15,12 @@ public class Eat implements CommandExecutor{
 			plugin = instance;
 		}
 		
-		// /feed
 		
+		// /feed
 		public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 				
 			if(label.equalsIgnoreCase("eat")) {
-				if(!(sender.hasPermission("eat.use"))) {
+				if(!(sender.hasPermission("gmoll.eat"))) {
 					sender.sendMessage(ChatColor.DARK_RED + "You can't use this command!");
 					return true;	
 				}

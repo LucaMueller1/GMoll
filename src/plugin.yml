@@ -11,7 +11,7 @@ commands:
     permission: gmoll.head
   die:
   eat:
-    permission: eat.use
+    permission: gmoll.eat
   love:
     
   
