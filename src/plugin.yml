@@ -3,15 +3,20 @@ main: me.YvesLuca.GMoll.Main
 version: 1.0
 api-version: 1.15
 author: Yves + Luca
-depend: [NBTAPI, Essentials]
+depend: [NBTAPI, Essentials, MarriageMaster]
 
 commands:
   head:
     permission: gmoll.head
+    description: Buy heads from the head-shop!
   die:
+    description: Take a glance at Muffin_TV and commit suicide straight after.
   eat:
     permission: gmoll.eat
+    description: You are not yourself, when you're hungry!
   love:
     permission: gmoll.love
+    description: Have fun with your friends!
   smallestb16:
+    description: Teleport inside your favorite Admin at any time :)
   
