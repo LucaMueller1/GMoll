@@ -9,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import com.earth2me.essentials.IEssentials;
@@ -17,7 +18,7 @@ import com.earth2me.essentials.User;
 import me.YvesLuca.GMoll.*;
 import net.md_5.bungee.api.ChatColor;
 
-public class Die implements CommandExecutor {
+public class Die implements CommandExecutor, Listener {
 	
 	private Main plugin;
 	private IEssentials ess;

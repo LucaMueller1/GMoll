@@ -14,33 +14,39 @@ public class Main extends JavaPlugin implements Listener{
 	
 	
 	private IEssentials ess;
+	private PluginManager pm;
+	private Die dieEventCmd;
 	
 	@Override
 	public void onEnable() {
 		this.saveDefaultConfig();
 		registercmd();
-		PluginManager pm = this.getServer().getPluginManager();
-	//  pm.registerEvents(new Lucky(this), this);
-		pm.registerEvents(new Whitelister(this), this);
-		this.getServer().getPluginManager().registerEvents(this, this);
-		
+		pm = this.getServer().getPluginManager();
 		ess = (IEssentials) pm.getPlugin("Essentials");
+		dieEventCmd = new Die(this, ess);
+		
+		this.registerEvents();
 	}
 	
 	public void onDisable() {
 		
 	}
 	
-	public void registercmd() {
-		this.getCommand("die").setExecutor(new Die(this, ess));
+	private void registercmd() {
+		this.getCommand("die").setExecutor(dieEventCmd);
 		this.getCommand("eat").setExecutor(new Eat(this));
 		this.getCommand("love").setExecutor(new Love(this));
 		this.getCommand("head").setExecutor(new Head(this, ess));
 		this.getCommand("smallestb16").setExecutor(new Smallestb16(this));
 	//	this.getCommand("opstuff").setExecutor(new BetterEntchantments(this));
 	//	this.getCommand("lucky").setExecutor(new Lucky(this));
+	
+	}
+	
+	private void registerEvents() {
+		pm.registerEvents(new Whitelister(this), this);
+		pm.registerEvents(dieEventCmd, this);
 		
-	
-	
+		this.getServer().getPluginManager().registerEvents(this, this);
 	}
 }	

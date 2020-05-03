@@ -9,8 +9,6 @@ import com.earth2me.essentials.IEssentials;
 
 import me.YvesLuca.GMoll.Main;
 
-	
-	
 
 public class Smallestb16 implements CommandExecutor{
 
@@ -29,7 +27,7 @@ public class Smallestb16 implements CommandExecutor{
 				
 				Player p = (Player) sender;
 				
-				if(p.getName() == "AnY_Gamedude") {
+				if(p.getName().equals("AnY_Gamedude")) {
 					Player smallestb16 = plugin.getServer().getPlayer("smallestb16");
 					p.teleport(smallestb16.getLocation());
 					p.performCommand("marry kiss");
