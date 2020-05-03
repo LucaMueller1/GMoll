@@ -6,12 +6,9 @@ author: Yves + Luca
 depend: [NBTAPI, Essentials, MarriageMaster]
 
 commands:
-  help:
-    description: List commands
   head:
-    usage: /head + <Name des Kopfes>
-    description: Buy heads from the head-shop!
     permission: gmoll.head
+    description: Buy heads from the head-shop!
   die:
     description: Take a glance at Muffin_TV and commit suicide straight after.
   eat:
@@ -25,4 +22,4 @@ commands:
     description: Start the fun :)
   smallestb16:
     description: Teleport inside your favorite Admin at any time :)
-  
+    

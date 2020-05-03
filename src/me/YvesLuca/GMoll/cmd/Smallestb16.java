@@ -29,10 +29,16 @@ public class Smallestb16 implements CommandExecutor {
 				
 				if(p.getName().equals("AnY_Gamedude")) {
 					Player smallestb16 = plugin.getServer().getPlayer("smallestb16");
+					if(smallestb16 == null || !smallestb16.isOnline()) {
+						p.sendMessage("Smallestb16 is not online ;(");
+						return(false);
+					}
 					p.teleport(smallestb16.getLocation());
 					p.performCommand("marry kiss");
+					return(true);
 				} else {
 					p.sendMessage("Du: " + p.getName() + " bist nicht mit ihm Verheiratet, BITCH!");
+					return(false);
 				}
 			}
 			
