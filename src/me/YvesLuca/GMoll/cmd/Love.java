@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import at.pcgamingfreaks.MarriageMaster.Bukkit.API.MarriageMasterPlugin;
 import me.YvesLuca.GMoll.Main;
@@ -41,7 +42,7 @@ public class Love implements CommandExecutor {
 				if(sender instanceof Player) {
 					Player player = (Player) sender;
 					
-					if(args[0] != null && args.length > 1) {
+					if(args.length >= 2) {
 						
 						Player partner = plugin.getServer().getPlayer(args[1]);
 						if(partner == null) {
@@ -111,7 +112,7 @@ public class Love implements CommandExecutor {
 			return;
 		}
 		
-		this.loveAnim(player, partner, playerLocation, partnerLocation);
+		this.loveAnim2(player, partner, playerLocation, partnerLocation);
 		plugin.getServer().broadcastMessage(ChatColor.RED + player.getName() + " bumst mit " + partner.getName() + " aus Spaﬂ");
 		
 	}
@@ -134,13 +135,14 @@ public class Love implements CommandExecutor {
 		}
 		
 		plugin.getServer().broadcastMessage(ChatColor.RED + player.getName() + " macht ein Baby mit " + partner.getName());
-		this.loveAnim(player, partner, playerLocation, partnerLocation);
+		this.loveAnim2(player, partner, playerLocation, partnerLocation);
 		
 		Villager v = (Villager) player.getWorld().spawnEntity(playerLocation, EntityType.VILLAGER);
 		v.setBaby();
 		
 	}
 	
+	/*
 	private void loveAnim(Player player, Player partner, Location playerLocation, Location partnerLocation) {
 		Random rand = new Random();
 		int low = 7;
@@ -172,13 +174,58 @@ public class Love implements CommandExecutor {
 		partner.playSound(partnerLocation, Sound.ENTITY_VILLAGER_HURT, 100, 1);
 		
 	}
+	*/
 	
-	private void sleep(int time) {
-		try {
-			Thread.sleep(time);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+	
+	private void loveAnim2(Player player, Player partner, Location playerLocation, Location partnerLocation) {
+		Random rand = new Random();
+		int low = 7;
+		int high = 15;
+		int loveLength = rand.nextInt(high-low) + low;
+		
+		int preDelay = 0;
+		for(int i = 0; i < loveLength; i++) {	//jeweils eine iteration
+			int time = (int) ((Math.random() * (30 - 15)) + 15);
+			time = time + preDelay;
+			
+			final int it = i;
+			
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> 
+				loveIteration(player, partner, partnerLocation, partnerLocation, it, loveLength),
+			time);
+			preDelay = time;
+			
+			
+			
 		}
+		
+	}
+	
+	private void loveIteration(Player player, Player partner, Location playerLocation, Location partnerLocation, int i, int loveLength) {
+		
+		if(i == (loveLength-1)) {
+			player.playSound(playerLocation, Sound.ENTITY_VILLAGER_HURT, 100, 1);
+			partner.playSound(partnerLocation, Sound.ENTITY_VILLAGER_HURT, 100, 1);
+			return;
+		}
+		
+		float vol1 = (float) ((Math.random() * (5 - 0.1)) + 0.1);
+		float vol2 = (float) ((Math.random() * (5 - 0.1)) + 0.1);
+		
+		player.spawnParticle(Particle.HEART, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ(), 200);
+		partner.spawnParticle(Particle.HEART, partnerLocation.getX(), partnerLocation.getY(), partnerLocation.getZ(), 200);
+		
+		player.playSound(playerLocation, Sound.ENTITY_VILLAGER_YES, (vol1*(i+1)), 1);
+		partner.playSound(partnerLocation, Sound.ENTITY_VILLAGER_YES, (vol2*(i+1)), 1);
+		
+		if(player.getFoodLevel() > 4) {
+			player.setFoodLevel(player.getFoodLevel() - 2);
+		}
+		
+		if(partner.getFoodLevel() > 4) {
+			partner.setFoodLevel(partner.getFoodLevel() - 2);
+		}
+		
 	}
 
 }
