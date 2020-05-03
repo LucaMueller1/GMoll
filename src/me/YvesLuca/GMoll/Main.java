@@ -28,6 +28,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.registerEvents();
 	}
 	
+	@Override
 	public void onDisable() {
 		
 	}

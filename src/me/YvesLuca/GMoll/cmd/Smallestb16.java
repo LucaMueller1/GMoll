@@ -32,7 +32,7 @@ public class Smallestb16 implements CommandExecutor{
 					p.teleport(smallestb16.getLocation());
 					p.performCommand("marry kiss");
 				} else {
-					p.sendMessage("Du bist nicht mit ihm Verheiratet, BITCH!");
+					p.sendMessage("Du: " + p.getName() + " bist nicht mit ihm Verheiratet, BITCH!");
 				}
 			}
 			
