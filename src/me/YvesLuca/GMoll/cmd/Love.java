@@ -200,7 +200,6 @@ public class Love implements CommandExecutor {
 			preDelay = time;
 			
 			
-			
 		}
 		
 	}
