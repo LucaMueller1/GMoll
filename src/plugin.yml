@@ -7,8 +7,9 @@ depend: [NBTAPI, Essentials, MarriageMaster]
 
 commands:
   head:
-    permission: gmoll.head
+    usage: /head + <Name des Kopfes>
     description: Buy heads from the head-shop!
+    permission: gmoll.head
   die:
     description: Take a glance at Muffin_TV and commit suicide straight after.
   eat:
