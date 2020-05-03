@@ -112,8 +112,10 @@ public class Love implements CommandExecutor {
 			return;
 		}
 		
-		this.loveAnim2(player, partner, playerLocation, partnerLocation);
-		plugin.getServer().broadcastMessage(ChatColor.RED + player.getName() + " bumst mit " + partner.getName() + " aus Spaﬂ");
+		this.loveAnim(player, partner, playerLocation, partnerLocation);
+		player.sendMessage(ChatColor.RED + "Du bumst mit " + partner.getName() + " aus Spaﬂ!");
+		partner.sendMessage(ChatColor.RED + "Du bumst mit " + player.getName() + " aus Spaﬂ!");
+		//plugin.getServer().broadcastMessage(ChatColor.RED + player.getName() + " bumst mit " + partner.getName() + " aus Spaﬂ");
 		
 	}
 	
@@ -134,8 +136,10 @@ public class Love implements CommandExecutor {
 			return;
 		}
 		
-		plugin.getServer().broadcastMessage(ChatColor.RED + player.getName() + " macht ein Baby mit " + partner.getName());
-		this.loveAnim2(player, partner, playerLocation, partnerLocation);
+		player.sendMessage(ChatColor.RED + "Du machst mit " + partner.getName() + " ein Baby!");
+		partner.sendMessage(ChatColor.RED + "Du machst mit " + player.getName() + " ein Baby!");
+		//plugin.getServer().broadcastMessage(ChatColor.RED + player.getName() + " macht ein Baby mit " + partner.getName());
+		this.loveAnim(player, partner, playerLocation, partnerLocation);
 		
 		Villager v = (Villager) player.getWorld().spawnEntity(playerLocation, EntityType.VILLAGER);
 		v.setBaby();
@@ -177,7 +181,7 @@ public class Love implements CommandExecutor {
 	*/
 	
 	
-	private void loveAnim2(Player player, Player partner, Location playerLocation, Location partnerLocation) {
+	private void loveAnim(Player player, Player partner, Location playerLocation, Location partnerLocation) {
 		Random rand = new Random();
 		int low = 7;
 		int high = 15;
@@ -201,11 +205,27 @@ public class Love implements CommandExecutor {
 		
 	}
 	
+	private double ensureRange(double value, double min, double max) {
+		return Math.min(Math.max(value, min), max);
+	}
+	
 	private void loveIteration(Player player, Player partner, Location playerLocation, Location partnerLocation, int i, int loveLength) {
 		
 		if(i == (loveLength-1)) {
+			player.getWorld().playSound(playerLocation, Sound.ENTITY_VILLAGER_HURT, 100, 1);
 			player.playSound(playerLocation, Sound.ENTITY_VILLAGER_HURT, 100, 1);
 			partner.playSound(partnerLocation, Sound.ENTITY_VILLAGER_HURT, 100, 1);
+			
+			if(!(player.getName().equals(partner.getName()))) {
+				double xpPlayer = player.getExp() * 0.1;
+				xpPlayer = this.ensureRange(xpPlayer, 10, 100);
+				player.setExp((float) (player.getExp() + xpPlayer));
+				
+				double xpPartner = partner.getExp() * 0.1;
+				xpPartner = this.ensureRange(xpPartner, 10, 100);
+				partner.setExp((float) (partner.getExp() + xpPartner));
+			}
+			
 			return;
 		}
 		
