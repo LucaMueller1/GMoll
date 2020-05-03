@@ -21,7 +21,7 @@ import de.tr7zw.nbtapi.NBTItem;
 import de.tr7zw.nbtapi.NBTListCompound;
 import me.YvesLuca.GMoll.Main;
 
-public class Head implements CommandExecutor{
+public class Head implements CommandExecutor {
 
 	private Main plugin;
 	private IEssentials ess;

@@ -10,7 +10,7 @@ import com.earth2me.essentials.IEssentials;
 import me.YvesLuca.GMoll.Main;
 
 
-public class Smallestb16 implements CommandExecutor{
+public class Smallestb16 implements CommandExecutor {
 
 	private Main plugin;
 	//private MarriageMasterPlugin mm;
