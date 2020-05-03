@@ -15,10 +15,12 @@ public class Help implements CommandExecutor{
 		
 		if(label.equalsIgnoreCase("gmoll") && args != null) {
 			if(args[0].equalsIgnoreCase("help")) {
-				Player player = (Player) sender;
-				player.sendMessage(ChatColor.RED + "Commands from Plugin GMoll");
-				player.sendMessage(ChatColor.RED + "--------------------------");
-				player.sendMessage("1. /die - Kill yourself");
+				if(sender instanceof Player) {
+					Player player = (Player) sender;
+					player.performCommand("help gmoll");
+					return(true);
+				}
+				
 				
 
 			}

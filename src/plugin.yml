@@ -6,6 +6,8 @@ author: Yves + Luca
 depend: [NBTAPI, Essentials, MarriageMaster]
 
 commands:
+  help:
+    description: List commands
   head:
     usage: /head + <Name des Kopfes>
     description: Buy heads from the head-shop!
@@ -18,6 +20,9 @@ commands:
   love:
     permission: gmoll.love
     description: Have fun with your friends!
+  loveaccept:
+    permission: gmoll.loveaccept
+    description: Start the fun :)
   smallestb16:
     description: Teleport inside your favorite Admin at any time :)
   
