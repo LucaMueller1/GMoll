@@ -41,7 +41,7 @@ public class Love implements CommandExecutor {
 				if(sender instanceof Player) {
 					Player player = (Player) sender;
 					
-					if(args[0] != null && args[1] != null) {
+					if(args[0] != null && args.length > 1) {
 						
 						Player partner = plugin.getServer().getPlayer(args[1]);
 						if(partner == null) {
