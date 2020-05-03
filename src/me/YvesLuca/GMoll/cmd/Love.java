@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import at.pcgamingfreaks.MarriageMaster.Bukkit.API.MarriageMasterPlugin;
 import me.YvesLuca.GMoll.Main;
+import me.YvesLuca.GMoll.helper.Experience;
 import me.YvesLuca.GMoll.helper.LoveRequest;
 import net.md_5.bungee.api.ChatColor;
 
@@ -204,7 +205,7 @@ public class Love implements CommandExecutor {
 		
 	}
 	
-	private double ensureRange(double value, double min, double max) {
+	private int ensureRange(int value, int min, int max) {
 		return Math.min(Math.max(value, min), max);
 	}
 	
@@ -216,13 +217,13 @@ public class Love implements CommandExecutor {
 			partner.playSound(partnerLocation, Sound.ENTITY_VILLAGER_HURT, 100, 1);
 			
 			if(!(player.getName().equals(partner.getName()))) {
-				double xpPlayer = player.getExp() * 0.1;
+				int xpPlayer = (int) (Experience.getExp(player) * 0.1);
 				xpPlayer = this.ensureRange(xpPlayer, 10, 100);
-				player.setExp((float) (player.getExp() + xpPlayer));
+				Experience.changeExp(player, (Experience.getExp(player) + xpPlayer));
 				
-				double xpPartner = partner.getExp() * 0.1;
+				int xpPartner = (int) (Experience.getExp(partner) * 0.1);
 				xpPartner = this.ensureRange(xpPartner, 10, 100);
-				partner.setExp((float) (partner.getExp() + xpPartner));
+				Experience.changeExp(partner, (Experience.getExp(partner) + xpPartner));
 			}
 			
 			return;

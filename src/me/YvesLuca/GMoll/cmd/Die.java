@@ -16,6 +16,7 @@ import com.earth2me.essentials.IEssentials;
 import com.earth2me.essentials.User;
 
 import me.YvesLuca.GMoll.*;
+import me.YvesLuca.GMoll.helper.Experience;
 import net.md_5.bungee.api.ChatColor;
 
 public class Die implements CommandExecutor, Listener {
@@ -36,6 +37,7 @@ public class Die implements CommandExecutor, Listener {
 				Player player = (Player) sender;
 				player.setHealth(0);
 				Bukkit.broadcastMessage(ChatColor.DARK_RED + player.getName() + " hatte keine Lust mehr in der selben Welt wie Muffin_Tv11 zu leben");
+				player.sendMessage("Deine totale XP: " + Experience.getExp(player));
 			}	
 			return true;
 		}
