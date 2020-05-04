@@ -35,7 +35,7 @@ public class Die implements CommandExecutor, Listener {
 			if(sender instanceof Player) {
 				Player player = (Player) sender;
 				player.setHealth(0);
-				Bukkit.broadcastMessage(ChatColor.DARK_RED + player.getName() + " hatte keine Lust mehr in der selben Welt wie Muffin_Tv11 zu leben");
+				Bukkit.broadcastMessage(ChatColor.AQUA + player.getName() + " hatte keine Lust mehr in der selben Welt wie Muffin_Tv11 zu leben");
 			}	
 			return true;
 		}
