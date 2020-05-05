@@ -28,7 +28,7 @@ public class Die implements CommandExecutor, Listener {
 		this.ess = ess;
 	}
 	
-	// /die
+	// /die command
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
 		if(label.equalsIgnoreCase("die")) {
