@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import at.pcgamingfreaks.MarriageMaster.Bukkit.API.MarriageMasterPlugin;
 import me.YvesLuca.GMoll.Main;
+import me.YvesLuca.GMoll.helper.Experience;
 import me.YvesLuca.GMoll.helper.LoveRequest;
 import net.md_5.bungee.api.ChatColor;
 
@@ -49,8 +50,12 @@ public class Love implements CommandExecutor {
 							player.sendMessage("Your partner: " + args[1] + " is not online or does exist :(");
 							return(false);
 						}
+						if(player.equals(partner)) {
+							player.sendMessage("NaNa - Nix da!");
+							player.setHealth(player.getHealth()-2);
+						}
 						
-						if(args[0].equalsIgnoreCase("fun")) {
+						else if(args[0].equalsIgnoreCase("fun")) {
 							partner.sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + " möchte mit dir Spaß haben ;). Mach " + ChatColor.GREEN + "/loveaccept" + ChatColor.LIGHT_PURPLE + " um mit " + player.getName() + " zu " + ChatColor.RED + "vögeln!");
 							loveList.add(new LoveRequest(player, partner, true));
 							return(true);
@@ -204,7 +209,7 @@ public class Love implements CommandExecutor {
 		
 	}
 	
-	private double ensureRange(double value, double min, double max) {
+	private int ensureRange(int value, int min, int max) {
 		return Math.min(Math.max(value, min), max);
 	}
 	
@@ -216,13 +221,15 @@ public class Love implements CommandExecutor {
 			partner.playSound(partnerLocation, Sound.ENTITY_VILLAGER_HURT, 100, 1);
 			
 			if(!(player.getName().equals(partner.getName()))) {
-				double xpPlayer = player.getExp() * 0.1;
-				xpPlayer = this.ensureRange(xpPlayer, 10, 100);
-				player.setExp((float) (player.getExp() + xpPlayer));
+				int xpPlayer = (int) (Experience.getExp(player) * 0.1);
+				xpPlayer = this.ensureRange(xpPlayer, 5, 20);
+				Experience.changeExp(player, (Experience.getExp(player) + xpPlayer));
+				player.sendMessage("Du häsch " + xpPlayer + " XP bekommen!");
 				
-				double xpPartner = partner.getExp() * 0.1;
-				xpPartner = this.ensureRange(xpPartner, 10, 100);
-				partner.setExp((float) (partner.getExp() + xpPartner));
+				int xpPartner = (int) (Experience.getExp(partner) * 0.1);
+				xpPartner = this.ensureRange(xpPartner, 5, 20);
+				Experience.changeExp(partner, (Experience.getExp(partner) + xpPartner));
+				partner.sendMessage("Du häsch " + xpPartner + " XP bekommen!");
 			}
 			
 			return;
