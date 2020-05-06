@@ -16,6 +16,7 @@ import com.earth2me.essentials.IEssentials;
 import com.earth2me.essentials.User;
 
 import me.YvesLuca.GMoll.*;
+import me.YvesLuca.GMoll.helper.Experience;
 import net.md_5.bungee.api.ChatColor;
 
 public class Die implements CommandExecutor, Listener {
@@ -36,10 +37,18 @@ public class Die implements CommandExecutor, Listener {
 				Player player = (Player) sender;
 				player.setHealth(0);
 				Bukkit.broadcastMessage(ChatColor.AQUA + player.getName() + " hatte keine Lust mehr in der selben Welt wie Muffin_Tv11 zu leben!");
+				
+				int xpPlayer = (int) (Experience.getExp(player) * 0.1);
+				xpPlayer = this.ensureRange(xpPlayer, 5, 20);
+				player.sendMessage("XP: " + Experience.getExp(player) + "*0.1 but contstrained: " + ((Experience.getExp(player) + xpPlayer)));
 			}	
 			return true;
 		}
 		return false;
+	}
+	
+	private int ensureRange(int value, int min, int max) {
+		return Math.min(Math.max(value, min), max);
 	}
 	
 	//on player death event

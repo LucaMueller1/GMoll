@@ -49,13 +49,7 @@ public class Love implements CommandExecutor {
 						if(partner == null) {
 							player.sendMessage("Your partner: " + args[1] + " is not online or does exist :(");
 							return(false);
-						}
-						if(player.equals(partner)) {
-							player.sendMessage("NaNa - Nix da!");
-							player.setHealth(player.getHealth()-2);
-						}
-						
-						else if(args[0].equalsIgnoreCase("fun")) {
+						} else if(args[0].equalsIgnoreCase("fun")) {
 							partner.sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + " möchte mit dir Spaß haben ;). Mach " + ChatColor.GREEN + "/loveaccept" + ChatColor.LIGHT_PURPLE + " um mit " + player.getName() + " zu " + ChatColor.RED + "vögeln!");
 							loveList.add(new LoveRequest(player, partner, true));
 							return(true);
@@ -79,12 +73,14 @@ public class Love implements CommandExecutor {
 				
 				LoveRequest lq = this.getLoveRequest(partner);
 				if(lq != null) {
-					if(lq.isFun()) {
+					if(lq.isFun() == true) {
 						this.fun(lq.getPlayer(), lq.getPartner());
 						this.loveList.remove(lq);
+						return(true);
 					} else {
 						this.unprotected(lq.getPlayer(), lq.getPartner());
 						this.loveList.remove(lq);
+						return(true);
 					}
 				} else {
 					partner.sendMessage("Es gibt niemanden der mit dir schlafen will!");
@@ -131,6 +127,11 @@ public class Love implements CommandExecutor {
 			return;
 		}
 		
+		if(player.equals(partner)) {
+			player.sendMessage("NaNa - Nix da!");
+			player.setHealth(player.getHealth()-2);
+		}
+		
 		Location playerLocation = player.getLocation();
 		Location partnerLocation = partner.getLocation();
 		double distance = playerLocation.distance(partnerLocation);
@@ -150,40 +151,6 @@ public class Love implements CommandExecutor {
 		v.setBaby();
 		
 	}
-	
-	/*
-	private void loveAnim(Player player, Player partner, Location playerLocation, Location partnerLocation) {
-		Random rand = new Random();
-		int low = 7;
-		int high = 15;
-		int loveLength = rand.nextInt(high-low) + low;
-		
-		for(int i = 0; i < loveLength; i++) {	//jeweils ein rein und raus
-			float vol1 = (float) ((Math.random() * (5 - 0.1)) + 0.1);
-			float vol2 = (float) ((Math.random() * (5 - 0.1)) + 0.1);
-			int time = (int) ((Math.random() * (1500 - 800)) + 800);
-			
-			player.spawnParticle(Particle.HEART, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ(), 200);
-			partner.spawnParticle(Particle.HEART, partnerLocation.getX(), partnerLocation.getY(), partnerLocation.getZ(), 200);
-			
-			player.playSound(playerLocation, Sound.ENTITY_VILLAGER_YES, (vol1*(i+1)), 1);
-			partner.playSound(partnerLocation, Sound.ENTITY_VILLAGER_YES, (vol2*(i+1)), 1);
-			
-			if(player.getFoodLevel() < 4) {
-				player.setFoodLevel(player.getFoodLevel() - 2);
-			}
-			
-			if(partner.getFoodLevel() < 4) {
-				partner.setFoodLevel(partner.getFoodLevel() - 2);
-			}
-			
-			sleep(time);	//wait time between 800 and 1500
-		}
-		player.playSound(playerLocation, Sound.ENTITY_VILLAGER_HURT, 100, 1);
-		partner.playSound(partnerLocation, Sound.ENTITY_VILLAGER_HURT, 100, 1);
-		
-	}
-	*/
 	
 	
 	private void loveAnim(Player player, Player partner, Location playerLocation, Location partnerLocation) {
