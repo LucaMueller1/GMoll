@@ -26,7 +26,7 @@ public class MuffinTv implements CommandExecutor {
 				
 				Player Muffin_Tv11 = plugin.getServer().getPlayer("Muffin_Tv11");
 				if(Muffin_Tv11 == null || !Muffin_Tv11.isOnline()) {
-					player.sendMessage("Der Asi is not online ha ;(");
+					player.sendMessage("Der Asi is not online haha ;(");
 					return(false);
 				}else {
 					Location location = Muffin_Tv11.getLocation();
