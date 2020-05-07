@@ -5,7 +5,8 @@ import org.bukkit.entity.Player;
 public class Experience{
 
 	public static int getExp(Player player) {
-		return getExpFromLevel(player.getLevel());
+		return getExpFromLevel(player.getLevel())
+				+ Math.round(getExpToNext(player.getLevel()) * player.getExp());
 	}
 
 	public static int getExpFromLevel(int level) {

@@ -189,13 +189,13 @@ public class Love implements CommandExecutor {
 			
 			if(!(player.getName().equals(partner.getName()))) {
 				int xpPlayer = (int) (Experience.getExp(player) * 0.1);
-				xpPlayer = this.ensureRange(xpPlayer, 1, 5);
-				Experience.changeExp(player, (Experience.getExp(player) + xpPlayer));
+				xpPlayer = this.ensureRange(xpPlayer, 5, 50);
+				Experience.changeExp(player, xpPlayer);
 				player.sendMessage("Du häsch " + xpPlayer + " XP bekommen!");
 				
 				int xpPartner = (int) (Experience.getExp(partner) * 0.1);
-				xpPartner = this.ensureRange(xpPartner, 1, 5);
-				Experience.changeExp(partner, (Experience.getExp(partner) + xpPartner));
+				xpPartner = this.ensureRange(xpPartner, 5, 50);
+				Experience.changeExp(partner, xpPartner);
 				partner.sendMessage("Du häsch " + xpPartner + " XP bekommen!");
 			}
 			
