@@ -28,7 +28,7 @@ public class MuffinTv implements CommandExecutor {
 				if(Muffin_Tv11 == null || !Muffin_Tv11.isOnline()) {
 					player.sendMessage("Der Asi is not online haha ;(");
 					return(false);
-				}else {
+				} else {
 					Location location = Muffin_Tv11.getLocation();
 					location.setY(location.getY() + 3);
 					Muffin_Tv11.teleport(location);

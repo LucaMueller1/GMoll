@@ -40,7 +40,7 @@ public class Die implements CommandExecutor, Listener {
 				
 				int xpPlayer = (int) (Experience.getExp(player) * 0.1);
 				xpPlayer = this.ensureRange(xpPlayer, 5, 20);
-				player.sendMessage("XP: " + Experience.getExp(player) + "*0.1 but contstrained: " + ((Experience.getExp(player) + xpPlayer)));
+				player.sendMessage("XP: " + Experience.getExp(player) + "*0.1 but contstrained: " + (xpPlayer));
 				Experience.changeExp(player, Experience.getExp(player));
 			}	
 			return true;
