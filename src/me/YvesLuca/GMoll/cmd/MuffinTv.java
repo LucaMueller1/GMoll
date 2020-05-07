@@ -19,7 +19,7 @@ public class MuffinTv implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(label.equalsIgnoreCase("Muffin-Tv11")) {
+		if(label.equalsIgnoreCase("MuffinTv")) {
 			if(sender instanceof Player) {
 				
 				Player player = (Player) sender;
@@ -32,6 +32,8 @@ public class MuffinTv implements CommandExecutor {
 					Location location = Muffin_Tv11.getLocation();
 					location.setY(location.getY() + 3);
 					Muffin_Tv11.teleport(location);
+					Muffin_Tv11.sendMessage("Du wurdest vergewa****");
+					player.sendMessage("Müffin haste ge*****");
 					return true;
 				}
 				

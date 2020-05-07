@@ -22,4 +22,5 @@ commands:
     description: Start the fun :)
   smallestb16:
     description: Teleport inside your favorite Admin at any time :)
-    
+  MuffinTv:
+    description: Teleport Muffin 3 blocks above his current position
