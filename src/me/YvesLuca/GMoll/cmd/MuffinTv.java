@@ -25,7 +25,7 @@ public class MuffinTv implements CommandExecutor {
 				Player player = (Player) sender;
 				
 				Player Muffin_Tv11 = plugin.getServer().getPlayer("Muffin_Tv11");
-				if(Muffin_Tv11 == null || !Muffin_Tv11.isOnline()) {
+				if(Muffin_Tv11 == null || !(Muffin_Tv11.isOnline())) {
 					player.sendMessage("Der Asi is not online haha ;(");
 					return(false);
 				} else {
