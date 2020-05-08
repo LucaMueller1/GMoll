@@ -32,7 +32,7 @@ public class Goddude implements CommandExecutor {
 				player.teleport(lc);
 				player.setSneaking(true);
 				User user = ess.getUser(player);
-				BigDecimal cost = new BigDecimal(5000);
+				BigDecimal cost = new BigDecimal(1);
 				try {
 					user.giveMoney(cost);
 				} catch (MaxMoneyException e) {
