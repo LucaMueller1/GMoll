@@ -15,3 +15,9 @@ durrburger:
   id: "8301e4c1-d76a-4667-a782-9944431f1a59"
   value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTZkOWQ2ZDFmMDE1ZjEyYzI4Yjg1MjUzN2NkNzQ2MzUzMzNkNTI5MWZmYmY5Y2I3ZTQ0NDI1YTU0MDQ1YjMwNSJ9fX0="
   cost: 10000
+rewinside:
+  lore: "Moin Ich bin Rewi"
+  name: "Rewinside"
+  id: "805421fe-3775-4b5e-8996-da02dace7b4e"
+  value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMThhODQ3NTBhZWJjYjlhZDU5MGFiMjZjMTM0NjZkYjBhYTc3YzYwNTIzODZmZTc2YWQzMjI2YzY0MzZkZDQzIn19fQ=="
+  cost: 7500

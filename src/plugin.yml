@@ -21,8 +21,11 @@ commands:
     permission: gmoll.loveaccept
     description: Start the fun :)
   smallestb16:
+    permission: gmoll.smallestb16
     description: Teleport inside your favorite Admin at any time :)
   MuffinTv:
+    permission: gmoll.MuffinTv
     description: Teleport Muffin 3 blocks above his current position
   Goddude:
+    permission: gmoll.Goddude
     description: Go to GOD
