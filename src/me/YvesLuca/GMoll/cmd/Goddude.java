@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import com.earth2me.essentials.IEssentials;
 import com.earth2me.essentials.User;
 
+import me.YvesLuca.GMoll.Main;
 import net.ess3.api.MaxMoneyException;
 
 
@@ -18,7 +19,7 @@ public class Goddude implements CommandExecutor {
 
 	private IEssentials ess;
 	
-	public Goddude(IEssentials ess) {
+	public Goddude(Main main, IEssentials ess2) {
 		this.ess = ess;
 	}
 	@Override

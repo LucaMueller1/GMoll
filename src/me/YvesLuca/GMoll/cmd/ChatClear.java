@@ -6,10 +6,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import me.YvesLuca.GMoll.Main;
+
 public class ChatClear implements CommandExecutor {
 	
+	private Main plugin;
+	
+	public ChatClear(Main instance) {
+		plugin = instance;
+	}
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		
+	  if(label.equalsIgnoreCase("cc")) {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			if(player.hasPermission("gmoll.cc")) {
@@ -26,7 +34,9 @@ public class ChatClear implements CommandExecutor {
 			} else
 				player.sendMessage("&cDu hast keine Rechte");	
 		}
-		return false;
+		
 	}
+	  return false;
+  }
 	
 }

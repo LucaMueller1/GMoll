@@ -19,7 +19,7 @@ public class MuffinTv implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(label.equalsIgnoreCase("MuffinTv")) {
+		if(label.equalsIgnoreCase("muffintv")) {
 			if(sender instanceof Player) {
 				
 				Player player = (Player) sender;
