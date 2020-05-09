@@ -17,26 +17,23 @@ public class ChatClear implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-	  if(label.equalsIgnoreCase("cc")) {
-		if(sender instanceof Player) {
-			Player player = (Player) sender;
-			if(player.hasPermission("gmoll.cc")) {
-				if(args.length == 0) {
-					
-					for(int i = 0; i <= 150; i++) {
-						Bukkit.broadcastMessage(" ");
-						Bukkit.broadcastMessage("§aDer Chat wurde von §6" + player.getName() + "§a geleert.");
-						
-					} 
-					
-				} else
-				 	player.sendMessage("§cBitte benutze §6/cc§c!");
-			} else
-				player.sendMessage("&cDu hast keine Rechte");	
+		
+		Player player = (Player) sender;
+		if(!player.hasPermission("gmoll.cc")) {
+			player.sendMessage("§6 Du hast keine Berechtigung!");
+		} else {
+			for(int i = 0; i < 200; ++i) {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					if(all.hasPermission("gmoll.cc")) {
+						all.sendMessage(" ");
+					}
+				}
+			}
+			Bukkit.broadcastMessage("§7 Der Chat wurde von §e" + player.getName() + "§7 geleert!");
+			return true;
 		}
 		
+	   return false;
 	}
-	  return false;
-  }
 	
 }
