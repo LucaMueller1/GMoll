@@ -29,3 +29,6 @@ commands:
   Goddude:
     permission: gmoll.Goddude
     description: Go to GOD
+  cc:
+    permission: gmoll.cc
+    description: Chatclear
