@@ -32,3 +32,6 @@ commands:
   cc:
     permission: gmoll.cc
     description: Chatclear
+  gsell:
+    permission: gmoll.gsell
+    description: Das GutschriebenTicket wieder zurück geben.
