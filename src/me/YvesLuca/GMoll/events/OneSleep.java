@@ -38,7 +38,6 @@ private Main plugin;
 			
 		}
 		if(counter >= neededPlayers) {
-			PlayerBedLeaveEvent QWER;
 			cmdPlayer.getWorld().setTime(0);
 			cmdPlayer.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 5 ,5));
 			return true;
