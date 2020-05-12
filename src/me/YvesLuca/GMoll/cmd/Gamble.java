@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -64,9 +65,9 @@ public class Gamble implements CommandExecutor, Listener {
 		*/
 		
 		Player player = (Player) e.getWhoClicked();
-		player.closeInventory();
 		
 		e.setCancelled(true);
+		player.closeInventory();
 
 	}
 
@@ -79,13 +80,13 @@ public class Gamble implements CommandExecutor, Listener {
 		int preDelay = 0;
 		
 		for(int i = 0; i < numSlots; i++) {
-			int time = 20;
+			int time = 15;
 			time += preDelay;
 			
 			final int it = i;
 			
 			
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> setInv(items, inv, it), time);
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> setInv(items, inv, it, player), time);
 			
 			preDelay = time;
 		}
@@ -94,7 +95,7 @@ public class Gamble implements CommandExecutor, Listener {
 	    player.openInventory(inv);
 	}
 	
-	private void setInv(ItemStack[] items, Inventory inv, int i) {
+	private void setInv(ItemStack[] items, Inventory inv, int i, Player player) {
 		Random rnd = new Random();
 	    int rndNum = rnd.nextInt(100) + 1;
 	    
@@ -110,7 +111,8 @@ public class Gamble implements CommandExecutor, Listener {
 	    	items[i] = casinoSlots[0].getDisplayItem();
 	    }
 	    
-	    inv.setItem(i+9, items[i]);
+	    inv.setItem(i+10, items[i]);
+	    player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 	}
 	
 	
