@@ -24,7 +24,6 @@ private Main plugin;
 	
 	@EventHandler
 	public void onSleep(PlayerBedEnterEvent e) {
-		int playercount = plugin.getServer().getOnlinePlayers().size();
 		int neededPlayers = (int) plugin.getConfig().getDouble("neededPlayers");
 		this.setDay(neededPlayers, e.getPlayer());
 		
@@ -42,7 +41,7 @@ private Main plugin;
 		if(counter >= neededPlayers) {
 			cmdPlayer.getWorld().setTime(0);
 			cmdPlayer.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 5 ,5));
-			Bukkit.broadcastMessage(ChatColor.AQUA + "Morgen");
+			plugin.getServer().broadcastMessage(ChatColor.AQUA + "Morgen");
 			return true;
 		} else {
 			return false;

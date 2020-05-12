@@ -28,8 +28,8 @@ public class Goddude implements CommandExecutor {
 			Player player = (Player) sender;
 			if(!(sender instanceof Player)) {
 				sender.sendMessage("Du kannst diesen Befehl nicht ausführen!");
-			}else {
-				Location lc = new Location(null, -241, 64, 245);
+			} else {
+				Location lc = new Location(player.getWorld(), -241, 64, 245);
 				player.teleport(lc);
 				player.setSneaking(true);
 				User user = ess.getUser(player);

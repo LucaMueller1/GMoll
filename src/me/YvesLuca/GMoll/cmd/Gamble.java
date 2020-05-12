@@ -80,7 +80,7 @@ public class Gamble implements CommandExecutor, Listener {
 		int preDelay = 0;
 		
 		for(int i = 0; i < numSlots; i++) {
-			int time = 15;
+			int time = 10;
 			time += preDelay;
 			
 			final int it = i;
