@@ -31,7 +31,7 @@ public class GSell implements CommandExecutor {
 			
 			Player player = (Player) sender;
 			ItemStack item10k = bank.getItem10k();
-			if(!(player.getItemInHand() == item10k)) {
+			if(!(player.getItemInHand().equals(item10k))) {
 				player.sendMessage("§6Das ist kein passendes Item §4[z.B.: §a10k§4 ]");
 			} else {
 				player.setItemInHand(null);
