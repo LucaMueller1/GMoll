@@ -3,6 +3,7 @@
 
 lossPercentage: 0.02
 feedAmount: 20
+neededPlayers: 2
 
 #heads in all lowercase
 burger:

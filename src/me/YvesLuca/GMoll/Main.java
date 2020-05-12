@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.earth2me.essentials.IEssentials;
 
 import me.YvesLuca.GMoll.cmd.*;
+import me.YvesLuca.GMoll.events.OneSleep;
 import me.YvesLuca.GMoll.events.Whitelister;
 
 
@@ -56,5 +57,6 @@ public class Main extends JavaPlugin implements Listener{
 	private void registerEvents() {
 		pm.registerEvents(new Whitelister(this), this);
 		pm.registerEvents(new Die(this, ess), this);
+		pm.registerEvents(new OneSleep(this), this);
 	}
 }	
