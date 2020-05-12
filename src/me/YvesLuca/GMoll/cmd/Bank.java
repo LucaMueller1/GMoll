@@ -26,7 +26,7 @@ import com.earth2me.essentials.User;
 import net.md_5.bungee.api.ChatColor;
 import me.YvesLuca.GMoll.Main;
 
-public class Bank implements CommandExecutor, Listener{
+public class Bank implements CommandExecutor, Listener {
 	
 	Main plugin;
 	public Bank(Main main) {

@@ -49,7 +49,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.getCommand("Goddude").setExecutor(new Goddude(this, ess));
 		this.getCommand("gsell").setExecutor(new GSell(this));
 		this.getCommand("bank").setExecutor(new Bank(this));
-		this.getCommand("").setExecutor(new Gamble());
+		this.getCommand("gamble").setExecutor(new Gamble(this));
 	
 	}
 	
