@@ -72,7 +72,7 @@ public class Gamble implements CommandExecutor, Listener {
 	}
 
 	private void openGambleScreen(Player player) {
-		Inventory inv = Bukkit.createInventory(null, 7, ChatColor.DARK_AQUA + "Feeling lucky?");
+		Inventory inv = Bukkit.createInventory(null, 9, ChatColor.DARK_AQUA + "Feeling lucky?");
 		
 		ItemStack[] items = new ItemStack[numSlots];
 		
