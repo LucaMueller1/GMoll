@@ -21,14 +21,15 @@ private Main plugin;
 	
 	
 	@EventHandler
-	public void onSleep(PlayerBedEnterEvent PBEE) {
+	public void onSleep(PlayerBedEnterEvent e) {
 		int playercount = plugin.getServer().getOnlinePlayers().size();
+		int neededPlayers = (int) plugin.getConfig().getDouble("neededPlayers");
+		this.setDay(neededPlayers, e.getPlayer());
 		
 		
 	}
 	
 	public boolean setDay(int neededPlayers, Player cmdPlayer) {
-		neededPlayers = (int) plugin.getConfig().getDouble("neededPlayers");
 		int counter = 0;
 		for(Player p : plugin.getServer().getOnlinePlayers()) {
 			if(p.isSleeping()) {
