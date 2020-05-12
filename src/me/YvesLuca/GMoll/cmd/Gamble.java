@@ -63,40 +63,54 @@ public class Gamble implements CommandExecutor, Listener {
 		if(e.getCurrentItem().getItemMeta().getDisplayName() == null) return;
 		*/
 		
-		if(e.getWhoClicked() instanceof Player) {
-			Player player = (Player) e.getWhoClicked();
-			player.closeInventory();
-		}
+		Player player = (Player) e.getWhoClicked();
+		player.closeInventory();
+		
 		e.setCancelled(true);
 
 	}
 
 	private void openGambleScreen(Player player) {
-		Inventory inv = Bukkit.createInventory(null, 9, ChatColor.DARK_AQUA + "Feeling lucky?");
+		Inventory inv = Bukkit.createInventory(null, 27, ChatColor.DARK_AQUA + "Feeling lucky?");
 		
 		ItemStack[] items = new ItemStack[numSlots];
 		
+		
+		int preDelay = 0;
+		
 		for(int i = 0; i < numSlots; i++) {
-			Random rnd = new Random();
-		    int rndNum = rnd.nextInt(101) + 1;
-		    
-		    if(rndNum < 35 && rndNum >= 0) {	//coal
-		    	items[i] = casinoSlots[4].getDisplayItem();
-		    } else if(rndNum >= 35 && rndNum < 60) {	//iron
-		    	items[i] = casinoSlots[3].getDisplayItem();
-		    } else if(rndNum >= 60 && rndNum < 80) {	//gold
-		    	items[i] = casinoSlots[2].getDisplayItem();
-		    } else if(rndNum >= 80 && rndNum < 95) {	//diamond
-		    	items[i] = casinoSlots[1].getDisplayItem();
-		    } else if(rndNum >= 95 && rndNum < 100) {	//emerald
-		    	items[i] = casinoSlots[0].getDisplayItem();
-		    }
-		    
-		    inv.setItem(i, items[i]);
+			int time = 20;
+			time += preDelay;
+			
+			final int it = i;
+			
+			
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> setInv(items, inv, it), time);
+			
+			preDelay = time;
 		}
 	    
 	    
 	    player.openInventory(inv);
+	}
+	
+	private void setInv(ItemStack[] items, Inventory inv, int i) {
+		Random rnd = new Random();
+	    int rndNum = rnd.nextInt(100) + 1;
+	    
+	    if(rndNum < 35 && rndNum >= 0) {	//coal
+	    	items[i] = casinoSlots[4].getDisplayItem();
+	    } else if(rndNum >= 35 && rndNum < 60) {	//iron
+	    	items[i] = casinoSlots[3].getDisplayItem();
+	    } else if(rndNum >= 60 && rndNum < 80) {	//gold
+	    	items[i] = casinoSlots[2].getDisplayItem();
+	    } else if(rndNum >= 80 && rndNum < 95) {	//diamond
+	    	items[i] = casinoSlots[1].getDisplayItem();
+	    } else if(rndNum >= 95 && rndNum < 100) {	//emerald
+	    	items[i] = casinoSlots[0].getDisplayItem();
+	    }
+	    
+	    inv.setItem(i+9, items[i]);
 	}
 	
 	
