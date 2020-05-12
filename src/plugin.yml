@@ -34,4 +34,10 @@ commands:
     description: Chatclear
   gsell:
     permission: gmoll.gsell
-    description: Das GutschriebenTicket wieder zurück geben.
+    description: Sell back the bank ticket
+  bank:
+    permission: gmoll.bank
+    description: Got a bank ticket with a worth
+  gamble:
+    permission: gmoll.gamble
+    description: Winning money by gambling.
