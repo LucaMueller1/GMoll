@@ -128,7 +128,8 @@ public class Bank implements CommandExecutor, Listener {
 		}
 
 	}
+	
 	public ItemStack getItem10k() {
-		return this.getItem10k();
+		return this.item10k;
 	}
 }

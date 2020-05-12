@@ -40,4 +40,4 @@ commands:
     description: Got a bank ticket with a worth
   gamble:
     permission: gmoll.gamble
-    description: Winning money by gambling.
+    description: Winning money by gambling
