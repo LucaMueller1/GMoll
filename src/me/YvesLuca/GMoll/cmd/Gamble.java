@@ -59,13 +59,12 @@ public class Gamble implements CommandExecutor, Listener {
 			if(sender instanceof Player) {
 				Player player = (Player) sender;
 				
-				
 				if(args == null) {
 					player.sendMessage("Verwendung: /gamble <Einsatz>");
 					return false;
 				}
 				
-				if(args[0] == null) {
+				if(args.length < 1) {
 					player.sendMessage("Verwendung: /gamble <Einsatz>");
 					return false;
 				}
@@ -87,6 +86,7 @@ public class Gamble implements CommandExecutor, Listener {
 				
 				if(this.getCasinoPlayer(player) == null) {
 					casinoPlayers.add(new CasinoPlayer(player, stake));
+					Log.info("Added Casino Player!");
 				}
 				
 				player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 0.8f, 1);
@@ -109,6 +109,8 @@ public class Gamble implements CommandExecutor, Listener {
 		if(e.getCurrentItem().getType().equals(Material.GREEN_WOOL)) {
 			CasinoPlayer cPlayer = this.getCasinoPlayer(player);
 			if(cPlayer != null) {
+				e.setCancelled(true);
+				player.closeInventory();
 				this.openGambleScreen(player, cPlayer.getStake());
 			} else {
 				Log.info("Casino Player not found! This should not be possible!");
@@ -162,7 +164,7 @@ public class Gamble implements CommandExecutor, Listener {
 		exitButton.setItemMeta(exitMeta);
 		
 		inv.setItem(18, exitButton);
-		inv.setItem(18, continueButton);
+		inv.setItem(26, continueButton);
 		
 		int preDelay = 0;
 		

@@ -33,7 +33,7 @@ public class Bank implements CommandExecutor, Listener {
 	private IEssentials ess;
 	public Bank(Main main, IEssentials ess) {
 		plugin = main;
-		ess = this.ess;
+		this.ess = ess;
 	}
 
 
@@ -53,7 +53,7 @@ public class Bank implements CommandExecutor, Listener {
 				return false;
 			}
 			
-			if(args[0] == null) {
+			if(args.length < 1) {
 				player.sendMessage("Verwendung: /bank <buy/sell>");
 				return false;
 			}
