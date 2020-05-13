@@ -41,10 +41,10 @@ public class Gamble implements CommandExecutor, Listener {
 		
 		casinoSlots = new CasinoSlot[5];
 		casinoSlots[0] = new CasinoSlot(new ItemStack(Material.EMERALD), 0.1, 1);			//5% spin chance, 100% per slot (starting at 3)
-		casinoSlots[1] = new CasinoSlot(new ItemStack(Material.DIAMOND), 0.15, 0.5);		//15% spin chance, 50% per slot (starting at 3)
-		casinoSlots[2] = new CasinoSlot(new ItemStack(Material.GOLD_INGOT), 0.2, 0.2);		//20% spin chance, 20% per slot (starting at 3)
-		casinoSlots[3] = new CasinoSlot(new ItemStack(Material.IRON_INGOT), 0.25, 0.05);	//25% spin chance, 5% per slot (starting at 3)
-		casinoSlots[4] = new CasinoSlot(new ItemStack(Material.COAL), 0.35, 0);				//35% spin chance, 0% per slot
+		casinoSlots[1] = new CasinoSlot(new ItemStack(Material.DIAMOND), 0.20, 0.5);		//15% spin chance, 50% per slot (starting at 3)
+		casinoSlots[2] = new CasinoSlot(new ItemStack(Material.GOLD_INGOT), 0.25, 0.2);		//20% spin chance, 20% per slot (starting at 3)
+		casinoSlots[3] = new CasinoSlot(new ItemStack(Material.IRON_INGOT), 0.30, 0.05);	//25% spin chance, 5% per slot (starting at 3)
+		casinoSlots[4] = new CasinoSlot(new ItemStack(Material.COAL), 0.15, 0);				//35% spin chance, 0% per slot
 	}
 	
 	@Override
@@ -121,15 +121,21 @@ public class Gamble implements CommandExecutor, Listener {
 		Random rnd = new Random();
 	    int rndNum = rnd.nextInt(100) + 1;
 	    
-	    if(rndNum < 35 && rndNum >= 0) {	//coal
+	    int prob1 = (int) (casinoSlots[4].getProb() * 100);
+	    int prob2 = (int) (casinoSlots[3].getProb() * 100) + prob1;	//60%
+	    int prob3 = (int) (casinoSlots[2].getProb() * 100) + prob2;
+	    int prob4 = (int) (casinoSlots[1].getProb() * 100) + prob3;
+	    int prob5 = (int) (casinoSlots[0].getProb() * 100) + prob4;
+	    
+	    if(rndNum < prob1 && rndNum >= 0) {	//coal
 	    	items[i] = casinoSlots[4].getDisplayItem();
-	    } else if(rndNum >= 35 && rndNum < 60) {	//iron
+	    } else if(rndNum >= prob1 && rndNum < prob2) {	//iron
 	    	items[i] = casinoSlots[3].getDisplayItem();
-	    } else if(rndNum >= 60 && rndNum < 80) {	//gold
+	    } else if(rndNum >= prob2 && rndNum < prob3) {	//gold
 	    	items[i] = casinoSlots[2].getDisplayItem();
-	    } else if(rndNum >= 80 && rndNum < 95) {	//diamond
+	    } else if(rndNum >= prob3 && rndNum < prob4) {	//diamond
 	    	items[i] = casinoSlots[1].getDisplayItem();
-	    } else if(rndNum >= 95 && rndNum < 100) {	//emerald
+	    } else if(rndNum >= prob4 && rndNum < prob5) {	//emerald
 	    	items[i] = casinoSlots[0].getDisplayItem();
 	    } else {
 	    	items[i] = casinoSlots[4].getDisplayItem();	//coal
@@ -165,7 +171,7 @@ public class Gamble implements CommandExecutor, Listener {
 			if(items[i].equals(preItem)) {
 				consCount++;
 			} else {
-				ItemStack[] tmp = null;
+				ItemStack[] tmp = new ItemStack[consCount+1];
 				System.arraycopy(items, i-consCount-1, tmp, 0, consCount+1);
 				list.add(tmp);
 				consCount = 0;
@@ -174,7 +180,7 @@ public class Gamble implements CommandExecutor, Listener {
 		}
 		
 		if(consCount > 0) {	//still need to copy last elements
-			ItemStack[] tmp = null;
+			ItemStack[] tmp = new ItemStack[consCount+1];;
 			System.arraycopy(items, items.length-consCount-1, tmp, 0, consCount+1);
 			list.add(tmp);
 		}
