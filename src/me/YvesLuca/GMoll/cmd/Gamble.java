@@ -108,18 +108,16 @@ public class Gamble implements CommandExecutor, Listener {
 			final int it = i;
 			
 			
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> setInv(items, inv, it, player), time);
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> setInv(items, inv, it, player, moneyAmount), time);
 			
 			preDelay = time;
 		}
 		
-		ArrayList<ItemStack[]> list = this.cutSlots(items);
-	    this.generatePayout(player, list, moneyAmount);
 	    
 	    player.openInventory(inv);
 	}
 	
-	private void setInv(ItemStack[] items, Inventory inv, int i, Player player) {
+	private void setInv(ItemStack[] items, Inventory inv, int i, Player player, double moneyAmount) {
 		Random rnd = new Random();
 	    int rndNum = rnd.nextInt(100) + 1;
 	    
@@ -140,6 +138,15 @@ public class Gamble implements CommandExecutor, Listener {
 	    
 	    inv.setItem(i+10, items[i]);
 	    player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+	    
+	    if(i == 6) {
+	    	this.calcMoney(items, moneyAmount, player);
+	    }
+	}
+	
+	private void calcMoney(ItemStack[] items, double moneyAmount, Player player) {
+		ArrayList<ItemStack[]> list = this.cutSlots(items);
+	    this.generatePayout(player, list, moneyAmount);
 	}
 	
 	private void deductMoney(Player player, double moneyAmount) {
@@ -182,15 +189,27 @@ public class Gamble implements CommandExecutor, Listener {
 			
 			if(count >= 3) {
 				CasinoSlot slot = this.getSlot(list.get(i)[0]);
-				double payRate = slot.getPayoutRate() * count;
-				double payout = moneyAmount*(1+payRate);
+				double payRate = 0;
+				double payout = 0;
 				
-				User user = ess.getUser(player);
-				try {
-					user.giveMoney(new BigDecimal(payout));
-				} catch (MaxMoneyException e) {
-					e.printStackTrace();
+				
+				if(slot.getDisplayItem().getType().equals(Material.COAL)) {
+					payRate = 0;
+					payout = 0;
+				} else {
+					payRate = slot.getPayoutRate() * count;
+					payout = moneyAmount*(1+payRate);
+					
+					User user = ess.getUser(player);
+					try {
+						user.giveMoney(new BigDecimal(payout));
+					} catch (MaxMoneyException e) {
+						e.printStackTrace();
+					}
+					
+					player.sendMessage("[Casino] Du hast " + payout + " gewonnen!");
 				}
+				
 				
 			}
 		}
