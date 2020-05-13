@@ -19,11 +19,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.earth2me.essentials.IEssentials;
 import com.earth2me.essentials.User;
 
 import me.YvesLuca.GMoll.Main;
+import me.YvesLuca.GMoll.helper.CasinoPlayer;
 import me.YvesLuca.GMoll.helper.CasinoSlot;
 import net.ess3.api.MaxMoneyException;
 import net.md_5.bungee.api.ChatColor;
@@ -32,12 +34,16 @@ public class Gamble implements CommandExecutor, Listener {
 	
 	private CasinoSlot[] casinoSlots;
 	private int numSlots = 7;
+	private int payoutSlotCount = 2;
+	private ArrayList<CasinoPlayer> casinoPlayers;
 	
 	private Main plugin;
 	private IEssentials ess;
 	public Gamble(Main main, IEssentials ess) {
 		this.plugin = main;
 		this.ess = ess;
+		
+		casinoPlayers = new ArrayList<CasinoPlayer>();
 		
 		casinoSlots = new CasinoSlot[5];
 		casinoSlots[0] = new CasinoSlot(new ItemStack(Material.EMERALD), 0.1, 1);			//5% spin chance, 100% per slot (starting at 3)
@@ -52,9 +58,28 @@ public class Gamble implements CommandExecutor, Listener {
 		if(label.equalsIgnoreCase("gamble")) {
 			if(sender instanceof Player) {
 				Player player = (Player) sender;
-				player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1);
+				
+				
+				if(args == null || args[0] == null) {
+					player.sendMessage("Verwendung: /gamble <Einsatz>");
+					return false;
+				}
+				
+				int stake = 0;
+				try {
+					stake = Integer.parseInt(args[0]);
+				} catch (NumberFormatException e) {
+					player.sendMessage("Dieser Wetteinsatz ist ungültig!");
+					stake = 0;
+				}
+				
+				if(this.getCasinoPlayer(player) == null) {
+					casinoPlayers.add(new CasinoPlayer(player, stake));
+				}
+				
+				player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 0.8f, 1);
 				player.playSound(player.getLocation(), Sound.MUSIC_DISC_BLOCKS, 0.4f, 1);
-				this.openGambleScreen(player, 100);
+				this.openGambleScreen(player, stake);
 			}	
 			return true;
 		}
@@ -67,12 +92,27 @@ public class Gamble implements CommandExecutor, Listener {
 		if(!ChatColor.stripColor(e.getView().getTitle().toString()).equalsIgnoreCase("Feeling lucky?")) return;
 		if(e.getCurrentItem() == null) return;
 		
+		Player player = (Player) e.getWhoClicked();
+		
+		if(e.getCurrentItem().getType().equals(Material.GREEN_WOOL)) {
+			CasinoPlayer cPlayer = this.getCasinoPlayer(player);
+			if(cPlayer != null) {
+				this.openGambleScreen(player, cPlayer.getStake());
+			} else {
+				Log.info("Casino Player not found! This should not be possible!");
+			}
+			return;
+		}
+		
+		if(e.getCurrentItem().getType().equals(Material.RED_WOOL)) {
+			e.setCancelled(true);
+		}
+		
 		/*
 		if(e.getCurrentItem().getItemMeta() == null) return;
 		if(e.getCurrentItem().getItemMeta().getDisplayName() == null) return;
 		*/
 		
-		Player player = (Player) e.getWhoClicked();
 		player.stopSound(Sound.MUSIC_DISC_BLOCKS);
 		
 		e.setCancelled(true);
@@ -97,6 +137,15 @@ public class Gamble implements CommandExecutor, Listener {
 		Inventory inv = Bukkit.createInventory(null, 27, ChatColor.DARK_AQUA + "Feeling lucky?");
 		
 		ItemStack[] items = new ItemStack[numSlots];
+		
+		ItemStack continueButton = new ItemStack(Material.GREEN_WOOL);
+		ItemMeta conMeta = continueButton.getItemMeta();
+		conMeta.setDisplayName("Nochmal!");
+		continueButton.setItemMeta(conMeta);
+		ItemStack exitButton = new ItemStack(Material.RED_WOOL);
+		ItemMeta exitMeta = exitButton.getItemMeta();
+		exitMeta.setDisplayName("STOPP!");
+		exitButton.setItemMeta(exitMeta);
 		
 		
 		int preDelay = 0;
@@ -193,7 +242,7 @@ public class Gamble implements CommandExecutor, Listener {
 		for(int i = 0; i < list.size(); i++) {
 			int count = list.get(i).length;
 			
-			if(count >= 3) {
+			if(count >= payoutSlotCount) {
 				CasinoSlot slot = this.getSlot(list.get(i)[0]);
 				double payRate = 0;
 				double payout = 0;
@@ -225,6 +274,15 @@ public class Gamble implements CommandExecutor, Listener {
 		for(int i = 0; i < casinoSlots.length; i++) {
 			if(casinoSlots[i].getDisplayItem().equals(item)) {
 				return(casinoSlots[i]);
+			}
+		}
+		return(null);
+	}
+	
+	private CasinoPlayer getCasinoPlayer(Player player) {
+		for(int i = 0; i < casinoPlayers.size(); i++) {
+			if(casinoPlayers.get(i).getPlayer().equals(player)) {
+				return(casinoPlayers.get(i));
 			}
 		}
 		return(null);
