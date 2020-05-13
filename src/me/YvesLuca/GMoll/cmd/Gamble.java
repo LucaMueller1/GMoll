@@ -48,6 +48,8 @@ public class Gamble implements CommandExecutor, Listener {
 		if(label.equalsIgnoreCase("gamble")) {
 			if(sender instanceof Player) {
 				Player player = (Player) sender;
+				player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1);
+				player.playSound(player.getLocation(), Sound.MUSIC_DISC_BLOCKS, 0.2f, 1);
 				this.openGambleScreen(player);
 			}	
 			return true;
