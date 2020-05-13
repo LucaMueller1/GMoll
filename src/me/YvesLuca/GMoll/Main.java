@@ -48,8 +48,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.getCommand("muffintv").setExecutor(new MuffinTv(this));
 		this.getCommand("cc").setExecutor(new ChatClear(this));
 		this.getCommand("Goddude").setExecutor(new Goddude(this, ess));
-		this.getCommand("gsell").setExecutor(new GSell(this));
-		this.getCommand("bank").setExecutor(new Bank(this));
+		this.getCommand("bank").setExecutor(new Bank(this, ess));
 		this.getCommand("gamble").setExecutor(new Gamble(this, ess));
 	
 	}
@@ -59,6 +58,6 @@ public class Main extends JavaPlugin implements Listener{
 		pm.registerEvents(new Die(this, ess), this);
 		pm.registerEvents(new OneSleep(this), this);
 		pm.registerEvents(new Gamble(this, ess), this);
-		pm.registerEvents(new Bank(this), this);
+		pm.registerEvents(new Bank(this, ess), this);
 	}
 }	

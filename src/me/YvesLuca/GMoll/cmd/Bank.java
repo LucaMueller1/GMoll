@@ -23,14 +23,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.earth2me.essentials.IEssentials;
 import com.earth2me.essentials.User;
 
+import net.ess3.api.MaxMoneyException;
 import net.md_5.bungee.api.ChatColor;
 import me.YvesLuca.GMoll.Main;
 
 public class Bank implements CommandExecutor, Listener {
 	
-	Main plugin;
-	public Bank(Main main) {
+	private Main plugin;
+	private IEssentials ess;
+	public Bank(Main main, IEssentials ess) {
 		plugin = main;
+		ess = this.ess;
 	}
 
 
@@ -38,13 +41,32 @@ public class Bank implements CommandExecutor, Listener {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
 		if(label.equalsIgnoreCase("bank")) {
+			
 			if(!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.DARK_RED + "You cannot use this Command");
 				return true;
 			}
 			Player player = (Player) sender;
-			openGUI(player);
-			return true;
+			
+			if(args == null) {
+				player.sendMessage("Verwendung: /bank <buy/sell>");
+				return false;
+			}
+			
+			if(args[0] == null) {
+				player.sendMessage("Verwendung: /bank <buy/sell>");
+				return false;
+			}
+			
+			if(args[0].equalsIgnoreCase("buy")) {
+				openGUI(player);
+				return true;	
+			} else if(args[0].equalsIgnoreCase("sell")) {
+				this.sellVoucher(player);
+			} else {
+				player.sendMessage("Verwendung: /bank <buy/sell>");
+				return false;
+			}
 		}
 						
 		return false;
@@ -76,7 +98,7 @@ public class Bank implements CommandExecutor, Listener {
 	
 	
 	
-	public ItemStack giveItem(String name) {
+	public ItemStack getItem10k(String name) {
 		
 		item10k = new ItemStack(Material.PAPER);
 		ItemMeta meta = item10k.getItemMeta();
@@ -105,14 +127,14 @@ public class Bank implements CommandExecutor, Listener {
 		
 		if(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("10k")){
 			Player player = (Player)e.getWhoClicked();
-			IEssentials ess = (IEssentials) plugin.getServer().getPluginManager().getPlugin("Essentials");
+			
 			User user = ess.getUser(player);
 			
 			BigDecimal price = new BigDecimal(10000);
 			if(user.getMoney().compareTo(price) >= 0) {
 																	
 				user.takeMoney(price);
-				player.getInventory().addItem(giveItem(player.getName()));
+				player.getInventory().addItem(getItem10k(player.getName()));
 				player.closeInventory();
 				e.setCancelled(true);
 				
@@ -129,7 +151,18 @@ public class Bank implements CommandExecutor, Listener {
 
 	}
 	
-	public ItemStack getItem10k() {
-		return this.item10k;
+	private void sellVoucher(Player player) {
+		ItemStack rItem = this.getItem10k(player.getName());
+		if(player.getInventory().getItemInMainHand().equals(rItem)) {
+			User user = ess.getUser(player);
+			try {
+				user.giveMoney(new BigDecimal(10000));
+			} catch (MaxMoneyException e) {
+				e.printStackTrace();
+			}
+			player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+		}
 	}
+	
+	
 }

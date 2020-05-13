@@ -34,7 +34,7 @@ public class Gamble implements CommandExecutor, Listener {
 	
 	private CasinoSlot[] casinoSlots;
 	private int numSlots = 7;
-	private int payoutSlotCount = 2;
+	private int payoutSlotCount = 3;
 	private ArrayList<CasinoPlayer> casinoPlayers;
 	
 	private Main plugin;
@@ -60,7 +60,12 @@ public class Gamble implements CommandExecutor, Listener {
 				Player player = (Player) sender;
 				
 				
-				if(args == null || args[0] == null) {
+				if(args == null) {
+					player.sendMessage("Verwendung: /gamble <Einsatz>");
+					return false;
+				}
+				
+				if(args[0] == null) {
 					player.sendMessage("Verwendung: /gamble <Einsatz>");
 					return false;
 				}
@@ -71,6 +76,13 @@ public class Gamble implements CommandExecutor, Listener {
 				} catch (NumberFormatException e) {
 					player.sendMessage("Dieser Wetteinsatz ist ungültig!");
 					stake = 0;
+				}
+				
+				User user = ess.getUser(player);
+				
+				if(!user.canAfford(new BigDecimal(stake))) {
+					player.sendMessage("Du bist nicht reich genung um zu zocken!");
+					return(false);
 				}
 				
 				if(this.getCasinoPlayer(player) == null) {
@@ -106,6 +118,8 @@ public class Gamble implements CommandExecutor, Listener {
 		
 		if(e.getCurrentItem().getType().equals(Material.RED_WOOL)) {
 			e.setCancelled(true);
+			player.closeInventory();
+			return;
 		}
 		
 		/*
@@ -147,6 +161,8 @@ public class Gamble implements CommandExecutor, Listener {
 		exitMeta.setDisplayName("STOPP!");
 		exitButton.setItemMeta(exitMeta);
 		
+		inv.setItem(18, exitButton);
+		inv.setItem(18, continueButton);
 		
 		int preDelay = 0;
 		
@@ -262,7 +278,7 @@ public class Gamble implements CommandExecutor, Listener {
 						e.printStackTrace();
 					}
 					
-					player.sendMessage("[Casino] Du hast " + payout + " gewonnen!");
+					player.sendMessage(ChatColor.DARK_AQUA + "[Casino]" + ChatColor.RESET + " Du hast " + ChatColor.GOLD +  payout + " gewonnen!");
 				}
 				
 				
