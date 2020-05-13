@@ -87,6 +87,9 @@ public class Gamble implements CommandExecutor, Listener {
 				if(this.getCasinoPlayer(player) == null) {
 					casinoPlayers.add(new CasinoPlayer(player, stake));
 					Log.info("Added Casino Player!");
+				} else {
+					this.setCPlayerStake(player, stake);
+					Log.info("Casino stake of Player: " + player.getName());
 				}
 				
 				player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 0.8f, 1);
@@ -186,7 +189,7 @@ public class Gamble implements CommandExecutor, Listener {
 	
 	private void setInv(ItemStack[] items, Inventory inv, int i, Player player, double moneyAmount) {
 		Random rnd = new Random();
-	    int rndNum = rnd.nextInt(100) + 1;
+	    int rndNum = rnd.nextInt(99) + 1;
 	    
 	    int prob1 = (int) (casinoSlots[4].getProb() * 100);
 	    int prob2 = (int) (casinoSlots[3].getProb() * 100) + prob1;	//60%
@@ -306,6 +309,14 @@ public class Gamble implements CommandExecutor, Listener {
 		return(null);
 	}
 	
+	private void setCPlayerStake(Player player, int stake) {
+		for(int i = 0; i < casinoPlayers.size(); i++) {
+			if(casinoPlayers.get(i).getPlayer().equals(player)) {
+				casinoPlayers.get(i).setStake(stake);
+			}
+			Log.info("PRINT ALL THAT SHIT: " + casinoPlayers.get(i).getPlayer().getName() + "STAKE: " + casinoPlayers.get(i).getStake());
+		}
+	}
 	
 	
 }

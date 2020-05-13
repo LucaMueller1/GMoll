@@ -161,6 +161,8 @@ public class Bank implements CommandExecutor, Listener {
 				e.printStackTrace();
 			}
 			player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+		} else {
+			player.sendMessage("Du musst ein Gutschein in der Hand halten, um diesen Befehl zu verwenden!");
 		}
 	}
 	

@@ -16,10 +16,6 @@ public class CasinoPlayer {
 		return player;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-
 	public int getStake() {
 		return stake;
 	}
