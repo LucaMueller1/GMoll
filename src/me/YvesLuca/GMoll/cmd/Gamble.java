@@ -11,6 +11,7 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -59,6 +60,7 @@ public class Gamble implements CommandExecutor, Listener {
 		
 		if(!ChatColor.stripColor(e.getView().getTitle().toString()).equalsIgnoreCase("Feeling lucky?")) return;
 		if(e.getCurrentItem() == null) return;
+		
 		/*
 		if(e.getCurrentItem().getItemMeta() == null) return;
 		if(e.getCurrentItem().getItemMeta().getDisplayName() == null) return;
@@ -109,6 +111,8 @@ public class Gamble implements CommandExecutor, Listener {
 	    	items[i] = casinoSlots[1].getDisplayItem();
 	    } else if(rndNum >= 95 && rndNum < 100) {	//emerald
 	    	items[i] = casinoSlots[0].getDisplayItem();
+	    } else {
+	    	Log.info("Casino Probability Error!");
 	    }
 	    
 	    inv.setItem(i+10, items[i]);

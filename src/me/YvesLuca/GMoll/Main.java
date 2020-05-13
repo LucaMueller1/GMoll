@@ -58,5 +58,6 @@ public class Main extends JavaPlugin implements Listener{
 		pm.registerEvents(new Whitelister(this), this);
 		pm.registerEvents(new Die(this, ess), this);
 		pm.registerEvents(new OneSleep(this), this);
+		pm.registerEvents(new Gamble(this), this);
 	}
 }	
