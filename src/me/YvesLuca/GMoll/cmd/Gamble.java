@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,6 +25,7 @@ import com.earth2me.essentials.User;
 
 import me.YvesLuca.GMoll.Main;
 import me.YvesLuca.GMoll.helper.CasinoSlot;
+import net.ess3.api.MaxMoneyException;
 import net.md_5.bungee.api.ChatColor;
 
 public class Gamble implements CommandExecutor, Listener {
@@ -32,15 +34,17 @@ public class Gamble implements CommandExecutor, Listener {
 	private int numSlots = 7;
 	
 	private Main plugin;
-	public Gamble(Main main) {
+	private IEssentials ess;
+	public Gamble(Main main, IEssentials ess) {
 		this.plugin = main;
+		this.ess = ess;
 		
 		casinoSlots = new CasinoSlot[5];
-		casinoSlots[0] = new CasinoSlot(new ItemStack(Material.EMERALD), 0.1);		//5%
-		casinoSlots[1] = new CasinoSlot(new ItemStack(Material.DIAMOND), 0.15);		//15%
-		casinoSlots[2] = new CasinoSlot(new ItemStack(Material.GOLD_INGOT), 0.2);	//20%
-		casinoSlots[3] = new CasinoSlot(new ItemStack(Material.IRON_INGOT), 0.25);	//25%
-		casinoSlots[4] = new CasinoSlot(new ItemStack(Material.COAL), 0.35);		//35%
+		casinoSlots[0] = new CasinoSlot(new ItemStack(Material.EMERALD), 0.1, 1);			//5% spin chance, 100% per slot (starting at 3)
+		casinoSlots[1] = new CasinoSlot(new ItemStack(Material.DIAMOND), 0.15, 0.5);		//15% spin chance, 50% per slot (starting at 3)
+		casinoSlots[2] = new CasinoSlot(new ItemStack(Material.GOLD_INGOT), 0.2, 0.2);		//20% spin chance, 20% per slot (starting at 3)
+		casinoSlots[3] = new CasinoSlot(new ItemStack(Material.IRON_INGOT), 0.25, 0.05);	//25% spin chance, 5% per slot (starting at 3)
+		casinoSlots[4] = new CasinoSlot(new ItemStack(Material.COAL), 0.35, 0);				//35% spin chance, 0% per slot
 	}
 	
 	@Override
@@ -49,8 +53,8 @@ public class Gamble implements CommandExecutor, Listener {
 			if(sender instanceof Player) {
 				Player player = (Player) sender;
 				player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1);
-				player.playSound(player.getLocation(), Sound.MUSIC_DISC_BLOCKS, 0.2f, 1);
-				this.openGambleScreen(player);
+				player.playSound(player.getLocation(), Sound.MUSIC_DISC_BLOCKS, 0.4f, 1);
+				this.openGambleScreen(player, 100);
 			}	
 			return true;
 		}
@@ -69,13 +73,27 @@ public class Gamble implements CommandExecutor, Listener {
 		*/
 		
 		Player player = (Player) e.getWhoClicked();
+		player.stopSound(Sound.MUSIC_DISC_BLOCKS);
 		
 		e.setCancelled(true);
 		player.closeInventory();
 
 	}
+	
+	@EventHandler
+	public void onClose(InventoryCloseEvent e) {
+		
+		if(!ChatColor.stripColor(e.getView().getTitle().toString()).equalsIgnoreCase("Feeling lucky?")) return;
+		
+		Player player = (Player) e.getPlayer();
+		player.stopSound(Sound.MUSIC_DISC_BLOCKS);
+		
 
-	private void openGambleScreen(Player player) {
+	}
+
+	private void openGambleScreen(Player player, double moneyAmount) {
+		this.deductMoney(player, moneyAmount);
+		
 		Inventory inv = Bukkit.createInventory(null, 27, ChatColor.DARK_AQUA + "Feeling lucky?");
 		
 		ItemStack[] items = new ItemStack[numSlots];
@@ -94,7 +112,9 @@ public class Gamble implements CommandExecutor, Listener {
 			
 			preDelay = time;
 		}
-	    
+		
+		ArrayList<ItemStack[]> list = this.cutSlots(items);
+	    this.generatePayout(player, list, moneyAmount);
 	    
 	    player.openInventory(inv);
 	}
@@ -114,11 +134,75 @@ public class Gamble implements CommandExecutor, Listener {
 	    } else if(rndNum >= 95 && rndNum < 100) {	//emerald
 	    	items[i] = casinoSlots[0].getDisplayItem();
 	    } else {
-	    	Log.info("Casino Probability Error!");
+	    	items[i] = casinoSlots[4].getDisplayItem();	//coal
+	    	Log.info("Casino Probability Error!" + rndNum);
 	    }
 	    
 	    inv.setItem(i+10, items[i]);
 	    player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+	}
+	
+	private void deductMoney(Player player, double moneyAmount) {
+		User user = ess.getUser(player);
+		user.takeMoney(new BigDecimal(moneyAmount));
+	}
+	
+	private ArrayList<ItemStack[]> cutSlots(ItemStack[] items) {
+		ArrayList<ItemStack[]> list = new ArrayList<ItemStack[]>();
+		
+		
+		ItemStack preItem = items[0];
+		int consCount = 0;
+		
+		for(int i = 1; i < items.length; i++) {
+			if(items[i].equals(preItem)) {
+				consCount++;
+			} else {
+				ItemStack[] tmp = null;
+				System.arraycopy(items, i-consCount-1, tmp, 0, consCount+1);
+				list.add(tmp);
+				consCount = 0;
+			}
+			preItem = items[i];
+		}
+		
+		if(consCount > 0) {	//still need to copy last elements
+			ItemStack[] tmp = null;
+			System.arraycopy(items, items.length-consCount-1, tmp, 0, consCount+1);
+			list.add(tmp);
+		}
+		
+		return(list);
+		
+	}
+	
+	private void generatePayout(Player player, ArrayList<ItemStack[]> list, double moneyAmount) {
+		for(int i = 0; i < list.size(); i++) {
+			int count = list.get(i).length;
+			
+			if(count >= 3) {
+				CasinoSlot slot = this.getSlot(list.get(i)[0]);
+				double payRate = slot.getPayoutRate() * count;
+				double payout = moneyAmount*(1+payRate);
+				
+				User user = ess.getUser(player);
+				try {
+					user.giveMoney(new BigDecimal(payout));
+				} catch (MaxMoneyException e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}
+	}
+	
+	private CasinoSlot getSlot(ItemStack item) {
+		for(int i = 0; i < casinoSlots.length; i++) {
+			if(casinoSlots[i].getDisplayItem().equals(item)) {
+				return(casinoSlots[i]);
+			}
+		}
+		return(null);
 	}
 	
 	

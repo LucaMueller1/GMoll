@@ -10,10 +10,12 @@ public class CasinoSlot {
 
 	private ItemStack displayItem;
 	private double prob;
+	private double payoutRate;
 	
-	public CasinoSlot(ItemStack item, double prob) {
+	public CasinoSlot(ItemStack item, double prob, double pay) {
 		this.displayItem = item;
 		this.prob = prob;
+		this.payoutRate = pay;
 	}
 
 	public ItemStack getDisplayItem() {
@@ -30,5 +32,13 @@ public class CasinoSlot {
 
 	public void setProb(double prob) {
 		this.prob = prob;
+	}
+
+	public double getPayoutRate() {
+		return payoutRate;
+	}
+
+	public void setPayoutRate(double payoutRate) {
+		this.payoutRate = payoutRate;
 	}
 }

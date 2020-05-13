@@ -13,7 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import me.YvesLuca.GMoll.Main;
 
-public class OneSleep implements Listener{
+public class OneSleep implements Listener {
 
 private Main plugin;
 	
@@ -41,7 +41,7 @@ private Main plugin;
 		if(counter >= neededPlayers) {
 			cmdPlayer.getWorld().setTime(0);
 			cmdPlayer.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 5 ,5));
-			plugin.getServer().broadcastMessage(ChatColor.AQUA + "Morgen");
+			plugin.getServer().broadcastMessage(ChatColor.AQUA + "Guten Morgen!");
 			return true;
 		} else {
 			return false;

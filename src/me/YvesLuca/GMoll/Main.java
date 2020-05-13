@@ -50,7 +50,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.getCommand("Goddude").setExecutor(new Goddude(this, ess));
 		this.getCommand("gsell").setExecutor(new GSell(this));
 		this.getCommand("bank").setExecutor(new Bank(this));
-		this.getCommand("gamble").setExecutor(new Gamble(this));
+		this.getCommand("gamble").setExecutor(new Gamble(this, ess));
 	
 	}
 	
@@ -58,7 +58,7 @@ public class Main extends JavaPlugin implements Listener{
 		pm.registerEvents(new Whitelister(this), this);
 		pm.registerEvents(new Die(this, ess), this);
 		pm.registerEvents(new OneSleep(this), this);
-		pm.registerEvents(new Gamble(this), this);
+		pm.registerEvents(new Gamble(this, ess), this);
 		pm.registerEvents(new Bank(this), this);
 	}
 }	
