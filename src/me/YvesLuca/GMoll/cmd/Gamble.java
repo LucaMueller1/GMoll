@@ -33,13 +33,17 @@ public class Gamble implements CommandExecutor, Listener {
 	
 	private CasinoSlot[] casinoSlots;
 	private int numSlots = 7;
-	private ArrayList<CasinoPlayer> casinoPlayers = new ArrayList<CasinoPlayer>();
+	private ArrayList<CasinoPlayer> casinoPlayers;
 	
 	private Main plugin;
 	private IEssentials ess;
 	public Gamble(Main main, IEssentials ess) {
 		this.plugin = main;
 		this.ess = ess;
+		
+		
+		Log.info("creating ArrayList with Casino Players!");
+		casinoPlayers = new ArrayList<CasinoPlayer>();
 		
 		casinoSlots = new CasinoSlot[5];
 		casinoSlots[0] = new CasinoSlot(new ItemStack(Material.EMERALD), 0.1, 1, 2);			//5% spin chance, 100% per slot (starting at 3)
@@ -108,7 +112,9 @@ public class Gamble implements CommandExecutor, Listener {
 		Player player = (Player) e.getWhoClicked();
 		
 		if(e.getCurrentItem().getType().equals(Material.GREEN_WOOL)) {
+			Log.info("Looking for Casino Player!");
 			CasinoPlayer cPlayer = this.getCasinoPlayer(player);
+			Log.info("Finished looking!");
 			if(cPlayer != null) {
 				Log.info("Actually found Casino Player!");
 				e.setCancelled(true);
@@ -116,9 +122,9 @@ public class Gamble implements CommandExecutor, Listener {
 				this.openGambleScreen(player, cPlayer.getStake());
 			} else {
 				Log.info("Casino Player not found! This should not be possible!");
+				e.setCancelled(true);
+				player.closeInventory();
 			}
-			e.setCancelled(true);
-			player.closeInventory();
 			return;
 		}
 		
@@ -298,8 +304,9 @@ public class Gamble implements CommandExecutor, Listener {
 	}
 	
 	private CasinoPlayer getCasinoPlayer(Player player) {
+		Log.info("XXX STARTING THE FUCKING FOR EACH LOOP");
 		for(CasinoPlayer cPlayer : casinoPlayers) {
-			Log.info("Casino Player: " + cPlayer.getPlayer().getName() + "; PlayerName: " + player.getName());
+			Log.info("YYY ITERATION: cName: " + cPlayer.getPlayer().getName() + ", pName: " + player.getName());
 			if(cPlayer.getPlayer().getName().equalsIgnoreCase(player.getName())) {
 				return(cPlayer);
 			}

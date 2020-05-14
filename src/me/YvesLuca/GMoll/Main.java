@@ -16,12 +16,14 @@ public class Main extends JavaPlugin implements Listener{
 	
 	private IEssentials ess;
 	private PluginManager pm;
+	private Gamble casino;
 	
 	@Override
 	public void onEnable() {
 		this.saveDefaultConfig();
 		pm = this.getServer().getPluginManager();
 		ess = (IEssentials) pm.getPlugin("Essentials");
+		casino = new Gamble(this, ess);
 		
 		//register Commands
 		registercmd();
@@ -49,7 +51,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.getCommand("cc").setExecutor(new ChatClear(this));
 		this.getCommand("Goddude").setExecutor(new Goddude(this, ess));
 		this.getCommand("bank").setExecutor(new Bank(this, ess));
-		this.getCommand("gamble").setExecutor(new Gamble(this, ess));
+		this.getCommand("gamble").setExecutor(casino);
 	
 	}
 	
@@ -57,7 +59,7 @@ public class Main extends JavaPlugin implements Listener{
 		pm.registerEvents(new Whitelister(this), this);
 		pm.registerEvents(new Die(this, ess), this);
 		pm.registerEvents(new OneSleep(this), this);
-		pm.registerEvents(new Gamble(this, ess), this);
+		pm.registerEvents(casino, this);
 		pm.registerEvents(new Bank(this, ess), this);
 	}
 }	
