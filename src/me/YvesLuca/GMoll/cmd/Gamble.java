@@ -77,7 +77,7 @@ public class Gamble implements CommandExecutor, Listener {
 				User user = ess.getUser(player);
 				
 				if(!user.canAfford(new BigDecimal(stake))) {
-					player.sendMessage("Du bist nicht reich genung um zu zocken!");
+					player.sendMessage(ChatColor.BLUE + "Du " + ChatColor.ITALIC + "bist nicht " + ChatColor.GOLD + "reich" +  ChatColor.RESET + "genung um zu zocken!");
 					return(false);
 				}
 				
