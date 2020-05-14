@@ -73,6 +73,8 @@ public class Gamble implements CommandExecutor, Listener {
 					stake = 0;
 				}
 				
+				Log.info("Starting Casino!");
+				
 				User user = ess.getUser(player);
 				
 				if(!user.canAfford(new BigDecimal(stake))) {
@@ -81,8 +83,10 @@ public class Gamble implements CommandExecutor, Listener {
 				}
 				
 				if(this.getCasinoPlayer(player) == null) {
+					Log.info("Adding Casino Player!");
 					casinoPlayers.add(new CasinoPlayer(player, stake));
 				} else {
+					Log.info("Setting Casino Players stake!");
 					this.setCPlayerStake(player, stake);
 				}
 				
@@ -106,12 +110,15 @@ public class Gamble implements CommandExecutor, Listener {
 		if(e.getCurrentItem().getType().equals(Material.GREEN_WOOL)) {
 			CasinoPlayer cPlayer = this.getCasinoPlayer(player);
 			if(cPlayer != null) {
+				Log.info("Actually found Casino Player!");
 				e.setCancelled(true);
 				player.closeInventory();
 				this.openGambleScreen(player, cPlayer.getStake());
 			} else {
 				Log.info("Casino Player not found! This should not be possible!");
 			}
+			e.setCancelled(true);
+			player.closeInventory();
 			return;
 		}
 		
@@ -121,10 +128,6 @@ public class Gamble implements CommandExecutor, Listener {
 			return;
 		}
 		
-		/*
-		if(e.getCurrentItem().getItemMeta() == null) return;
-		if(e.getCurrentItem().getItemMeta().getDisplayName() == null) return;
-		*/
 		
 		player.stopSound(Sound.MUSIC_DISC_BLOCKS);
 		
@@ -258,7 +261,7 @@ public class Gamble implements CommandExecutor, Listener {
 			int count = list.get(i).length;
 			CasinoSlot slot = this.getSlot(list.get(i)[0]);
 			
-			if(count >= slot.getPayoutRate()) {
+			if(count >= slot.getPayoutSlotCount()) {
 				double payRate = 0;
 				double payout = 0;
 				
@@ -296,11 +299,10 @@ public class Gamble implements CommandExecutor, Listener {
 	
 	private CasinoPlayer getCasinoPlayer(Player player) {
 		for(CasinoPlayer cPlayer : casinoPlayers) {
+			Log.info("Casino Player: " + cPlayer.getPlayer().getName() + "; PlayerName: " + player.getName());
 			if(cPlayer.getPlayer().getName().equalsIgnoreCase(player.getName())) {
-				Log.info("Found Casino Player!");
 				return(cPlayer);
 			}
-			Log.info("Casino Player: " + cPlayer.getPlayer().getName());
 		}
 		return(null);
 	}
