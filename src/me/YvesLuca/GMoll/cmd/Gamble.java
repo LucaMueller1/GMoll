@@ -34,8 +34,7 @@ public class Gamble implements CommandExecutor, Listener {
 	
 	private CasinoSlot[] casinoSlots;
 	private int numSlots = 7;
-	private int payoutSlotCount = 3;
-	private ArrayList<CasinoPlayer> casinoPlayers;
+	private ArrayList<CasinoPlayer> casinoPlayers = new ArrayList<CasinoPlayer>();
 	
 	private Main plugin;
 	private IEssentials ess;
@@ -43,14 +42,12 @@ public class Gamble implements CommandExecutor, Listener {
 		this.plugin = main;
 		this.ess = ess;
 		
-		casinoPlayers = new ArrayList<CasinoPlayer>();
-		
 		casinoSlots = new CasinoSlot[5];
-		casinoSlots[0] = new CasinoSlot(new ItemStack(Material.EMERALD), 0.1, 1);			//5% spin chance, 100% per slot (starting at 3)
-		casinoSlots[1] = new CasinoSlot(new ItemStack(Material.DIAMOND), 0.20, 0.5);		//15% spin chance, 50% per slot (starting at 3)
-		casinoSlots[2] = new CasinoSlot(new ItemStack(Material.GOLD_INGOT), 0.25, 0.2);		//20% spin chance, 20% per slot (starting at 3)
-		casinoSlots[3] = new CasinoSlot(new ItemStack(Material.IRON_INGOT), 0.30, 0.05);	//25% spin chance, 5% per slot (starting at 3)
-		casinoSlots[4] = new CasinoSlot(new ItemStack(Material.COAL), 0.15, 0);				//35% spin chance, 0% per slot
+		casinoSlots[0] = new CasinoSlot(new ItemStack(Material.EMERALD), 0.1, 1, 2);			//5% spin chance, 100% per slot (starting at 3)
+		casinoSlots[1] = new CasinoSlot(new ItemStack(Material.DIAMOND), 0.20, 0.5, 2);		//15% spin chance, 50% per slot (starting at 3)
+		casinoSlots[2] = new CasinoSlot(new ItemStack(Material.GOLD_INGOT), 0.25, 0.2, 3);		//20% spin chance, 20% per slot (starting at 3)
+		casinoSlots[3] = new CasinoSlot(new ItemStack(Material.IRON_INGOT), 0.30, 0.05, 3);	//25% spin chance, 5% per slot (starting at 3)
+		casinoSlots[4] = new CasinoSlot(new ItemStack(Material.COAL), 0.15, 0, 3);				//35% spin chance, 0% per slot
 	}
 	
 	@Override
@@ -260,9 +257,9 @@ public class Gamble implements CommandExecutor, Listener {
 	private void generatePayout(Player player, ArrayList<ItemStack[]> list, double moneyAmount) {
 		for(int i = 0; i < list.size(); i++) {
 			int count = list.get(i).length;
+			CasinoSlot slot = this.getSlot(list.get(i)[0]);
 			
-			if(count >= payoutSlotCount) {
-				CasinoSlot slot = this.getSlot(list.get(i)[0]);
+			if(count >= slot.getPayoutRate()) {
 				double payRate = 0;
 				double payout = 0;
 				
@@ -299,18 +296,20 @@ public class Gamble implements CommandExecutor, Listener {
 	}
 	
 	private CasinoPlayer getCasinoPlayer(Player player) {
-		for(int i = 0; i < casinoPlayers.size(); i++) {
-			if(casinoPlayers.get(i).getPlayer().getName().equals(player.getName())) {
-				return(casinoPlayers.get(i));
+		for(CasinoPlayer cPlayer : casinoPlayers) {
+			if(cPlayer.getPlayer().getName().equalsIgnoreCase(player.getName())) {
+				Log.info("Found Casino Player!");
+				return(cPlayer);
 			}
+			Log.info("Casino Player: " + cPlayer.getPlayer().getName());
 		}
 		return(null);
 	}
 	
 	private void setCPlayerStake(Player player, int stake) {
-		for(int i = 0; i < casinoPlayers.size(); i++) {
-			if(casinoPlayers.get(i).getPlayer().getName().equals(player.getName())) {
-				casinoPlayers.get(i).setStake(stake);
+		for(CasinoPlayer cPlayer : casinoPlayers) {
+			if(cPlayer.getPlayer().getName().equalsIgnoreCase(player.getName())) {
+				cPlayer.setStake(stake);
 			}
 		}
 	}
