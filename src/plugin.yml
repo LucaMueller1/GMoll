@@ -41,3 +41,6 @@ commands:
   gamble:
     permission: gmoll.gamble
     description: Winning money by gambling
+  genchant:
+    permission: gmoll.genchant
+    description: Winning money by gambling

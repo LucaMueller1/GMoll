@@ -1,5 +1,6 @@
 package me.YvesLuca.GMoll;
 
+import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,6 +10,7 @@ import com.earth2me.essentials.IEssentials;
 import me.YvesLuca.GMoll.cmd.*;
 import me.YvesLuca.GMoll.events.OneSleep;
 import me.YvesLuca.GMoll.events.Whitelister;
+import net.md_5.bungee.api.ChatColor;
 
 
 public class Main extends JavaPlugin implements Listener{
@@ -35,14 +37,13 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@Override
 	public void onDisable() {
-		
+		Log.info(ChatColor.DARK_AQUA + "GMoll wurde disabled :(");
 	}
 	
 	private void registercmd() {
+		Love love = new Love(this);
 		this.getCommand("die").setExecutor(new Die(this, ess));
 		this.getCommand("eat").setExecutor(new Eat(this));
-		
-		Love love = new Love(this);
 		this.getCommand("love").setExecutor(love);
 		this.getCommand("loveaccept").setExecutor(love);
 		this.getCommand("head").setExecutor(new Head(this, ess));
@@ -52,6 +53,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.getCommand("Goddude").setExecutor(new Goddude(this, ess));
 		this.getCommand("bank").setExecutor(new Bank(this, ess));
 		this.getCommand("gamble").setExecutor(casino);
+		this.getCommand("genchant").setExecutor(new Entchantments(this));
 	
 	}
 	
