@@ -22,6 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.earth2me.essentials.IEssentials;
 import com.earth2me.essentials.User;
+import com.google.common.graph.ElementOrder.Type;
 
 import me.YvesLuca.GMoll.Main;
 import me.YvesLuca.GMoll.helper.CasinoPlayer;
@@ -111,7 +112,7 @@ public class Gamble implements CommandExecutor, Listener {
 			CasinoPlayer cPlayer = this.getCasinoPlayer(player);
 			if(cPlayer != null) {
 				e.setCancelled(true);
-				player.closeInventory();
+				
 				this.openGambleScreen(player, cPlayer.getStake());
 			} else {
 				Log.info("Casino Player not found! This should not be possible!");
@@ -208,7 +209,7 @@ public class Gamble implements CommandExecutor, Listener {
 	    }
 	    
 	    inv.setItem(i+10, items[i]);
-	    player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+	    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
 	    
 	    if(i == 6) {
 	    	this.calcMoney(items, moneyAmount, player);
@@ -255,35 +256,48 @@ public class Gamble implements CommandExecutor, Listener {
 	}
 	
 	private void generatePayout(Player player, ArrayList<ItemStack[]> list, double moneyAmount) {
+		User user = ess.getUser(player);
+		double payout = 0;
+		
 		for(int i = 0; i < list.size(); i++) {
 			int count = list.get(i).length;
 			CasinoSlot slot = this.getSlot(list.get(i)[0]);
 			
 			if(count >= slot.getPayoutSlotCount()) {
 				double payRate = 0;
-				double payout = 0;
-				
 				
 				if(slot.getDisplayItem().getType().equals(Material.COAL)) {
 					payRate = 0;
-					payout = 0;
 				} else {
 					payRate = slot.getPayoutRate() * count;
-					payout = moneyAmount*(1+payRate);
-					
-					User user = ess.getUser(player);
-					try {
-						user.giveMoney(new BigDecimal(payout));
-					} catch (MaxMoneyException e) {
-						e.printStackTrace();
-					}
-					
-					player.sendMessage(ChatColor.DARK_AQUA + "[Casino]" + ChatColor.RESET + " Du hast " + ChatColor.GOLD +  payout + " gewonnen!");
+					payout += moneyAmount*(1+payRate);
 				}
 				
 				
 			}
 		}
+		
+		double winPercent = payout/moneyAmount;
+		
+		if(winPercent < 1) {
+			player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO, 1, 1); 	//loose sound
+		} else if(winPercent >= 1 && winPercent < 2) {
+			player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, 1);
+		} else if(winPercent >= 2) {
+			player.playSound(player.getLocation(), Sound.ITEM_TRIDENT_RETURN, 1, 1);
+		}
+		
+		try {
+			user.giveMoney(new BigDecimal(payout));
+		} catch (MaxMoneyException e) {
+			e.printStackTrace();
+		}
+		
+		player.sendMessage(ChatColor.DARK_AQUA + "[Casino]" + ChatColor.RESET + " Du hast " + ChatColor.GOLD +  payout + " gewonnen!");
+		
+		
+		
+		
 	}
 	
 	private CasinoSlot getSlot(ItemStack item) {
