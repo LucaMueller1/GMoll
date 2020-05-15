@@ -42,7 +42,6 @@ public class Gamble implements CommandExecutor, Listener {
 		this.ess = ess;
 		
 		
-		Log.info("creating ArrayList with Casino Players!");
 		casinoPlayers = new ArrayList<CasinoPlayer>();
 		
 		casinoSlots = new CasinoSlot[5];
@@ -77,20 +76,17 @@ public class Gamble implements CommandExecutor, Listener {
 					stake = 0;
 				}
 				
-				Log.info("Starting Casino!");
 				
 				User user = ess.getUser(player);
 				
 				if(!user.canAfford(new BigDecimal(stake))) {
-					player.sendMessage(ChatColor.BLUE + "Du " + ChatColor.ITALIC + "bist nicht " + ChatColor.GOLD + "reich" +  ChatColor.RESET + "genung um zu zocken!");
+					player.sendMessage(ChatColor.BLUE + "Du bist nicht " + ChatColor.GOLD + "reich" +  ChatColor.RESET + " genung um zu zocken!");
 					return(false);
 				}
 				
 				if(this.getCasinoPlayer(player) == null) {
-					Log.info("Adding Casino Player!");
 					casinoPlayers.add(new CasinoPlayer(player, stake));
 				} else {
-					Log.info("Setting Casino Players stake!");
 					this.setCPlayerStake(player, stake);
 				}
 				
@@ -112,11 +108,8 @@ public class Gamble implements CommandExecutor, Listener {
 		Player player = (Player) e.getWhoClicked();
 		
 		if(e.getCurrentItem().getType().equals(Material.GREEN_WOOL)) {
-			Log.info("Looking for Casino Player!");
 			CasinoPlayer cPlayer = this.getCasinoPlayer(player);
-			Log.info("Finished looking!");
 			if(cPlayer != null) {
-				Log.info("Actually found Casino Player!");
 				e.setCancelled(true);
 				player.closeInventory();
 				this.openGambleScreen(player, cPlayer.getStake());
@@ -133,7 +126,6 @@ public class Gamble implements CommandExecutor, Listener {
 			player.closeInventory();
 			return;
 		}
-		
 		
 		player.stopSound(Sound.MUSIC_DISC_BLOCKS);
 		
@@ -304,9 +296,7 @@ public class Gamble implements CommandExecutor, Listener {
 	}
 	
 	private CasinoPlayer getCasinoPlayer(Player player) {
-		Log.info("XXX STARTING THE FUCKING FOR EACH LOOP");
 		for(CasinoPlayer cPlayer : casinoPlayers) {
-			Log.info("YYY ITERATION: cName: " + cPlayer.getPlayer().getName() + ", pName: " + player.getName());
 			if(cPlayer.getPlayer().getName().equalsIgnoreCase(player.getName())) {
 				return(cPlayer);
 			}
