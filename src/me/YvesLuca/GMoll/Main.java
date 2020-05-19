@@ -43,6 +43,7 @@ public class Main extends JavaPlugin implements Listener{
 	
 	private void registercmd() {
 		Love love = new Love(this);
+		this.getCommand("fight").setExecutor(new OP(this));
 		this.getCommand("die").setExecutor(new Die(this, ess));
 		this.getCommand("eat").setExecutor(new Eat(this));
 		this.getCommand("love").setExecutor(love);
