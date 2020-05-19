@@ -9,6 +9,7 @@ import com.earth2me.essentials.IEssentials;
 
 import me.YvesLuca.GMoll.cmd.*;
 import me.YvesLuca.GMoll.events.OneSleep;
+import me.YvesLuca.GMoll.events.Welcome;
 import me.YvesLuca.GMoll.events.Whitelister;
 import net.md_5.bungee.api.ChatColor;
 
@@ -63,5 +64,6 @@ public class Main extends JavaPlugin implements Listener{
 		pm.registerEvents(new OneSleep(this), this);
 		pm.registerEvents(casino, this);
 		pm.registerEvents(new Bank(this, ess), this);
+		pm.registerEvents(new Welcome(this), this);
 	}
 }	
