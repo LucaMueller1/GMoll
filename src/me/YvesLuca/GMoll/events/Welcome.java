@@ -19,7 +19,9 @@ public class Welcome implements Listener{
 	@EventHandler
 	public void WEvent(PlayerJoinEvent e) {
 		Player player = (Player) e.getPlayer();
-		player.sendMessage(ChatColor.DARK_AQUA + "Willkommen " + ChatColor.DARK_RED + ChatColor.BOLD + player + ChatColor.AQUA + "auf dem Community Server" + ChatColor.YELLOW + "\nhab wie immer SPAß!");
+		Player name = (player);
+		name.getName();
+		player.sendMessage(ChatColor.DARK_AQUA + "Willkommen " + ChatColor.DARK_RED + ChatColor.BOLD + player + ChatColor.AQUA + " auf dem Community Server" + ChatColor.YELLOW + "\nhab wie immer SPAß!");
 		player.giveExp(1);
 	}
 	
