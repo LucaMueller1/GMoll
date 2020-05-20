@@ -25,11 +25,6 @@ public class Welcome implements Listener{
 		Player player = (Player) e.getPlayer();
 		String player2 = (String) e.getPlayer().getName();
 		player.sendMessage(ChatColor.DARK_AQUA + "Willkommen " + ChatColor.DARK_RED + ChatColor.BOLD + player2 + ChatColor.AQUA + " auf dem Community Server" + "           ----hab wie immer SPAß!----");
-		player.giveExp(1);
-		int healt = (int) player.getHealth();
-		player.setHealth(healt + 1);
-		int food = (int) player.getFoodLevel();
-		player.setFoodLevel(food + 2);
 		
 	}
 	@EventHandler

@@ -16,7 +16,9 @@ import net.md_5.bungee.api.ChatColor;
 
 
 public class Entchantments implements CommandExecutor{
-
+	
+	
+	
 	private Main plugin;
 	public Entchantments(Main main) {
 		this.plugin = main;
@@ -24,6 +26,7 @@ public class Entchantments implements CommandExecutor{
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		Player player = (Player) sender;
 		
 		ArrayList<String> enchantments = new ArrayList<String>();
 		enchantments.add("mending");
@@ -34,38 +37,28 @@ public class Entchantments implements CommandExecutor{
 		
 //		enchantments.add("");
 //		enchantments.add("");
-		if(label.equalsIgnoreCase("genchant") && args != null) {
+		ItemStack Item = player.getPlayer().getInventory().getItemInMainHand();
+		if(label.equalsIgnoreCase("genchant")) {
 			if(sender instanceof Player) {
-				Player player = (Player) sender;
-				
-				if(args.length >= 1) {	
-					System.out.println("Das Enchantments wurde nicht gefunden!");
-					 ItemStack ench = player.getPlayer().getInventory().getItemInMainHand();
-					if(ench == null) {
-						player.sendMessage(ChatColor.DARK_AQUA + "Bitte halte einen Gegenstandt, während du diesen Command benutzt!");
-					}else if(enchantments.get(0).equals("mending")) {
-						ench.addEnchantment(Enchantment.MENDING, 1);
-					}else if(enchantments.get(1).equals("fireaspect")) {
-						ench.addEnchantment(Enchantment.FIRE_ASPECT, 2);
-					}else if(enchantments.get(2).equals("sharppnes")) {
-						ench.addEnchantment(Enchantment.DAMAGE_ALL, 6);
-					}else if(enchantments.get(3).equals("durability")) {
-						ench.addEnchantment(Enchantment.DURABILITY, 5);
-					}else if(enchantments.get(4).equals("mending")) {
-						ench.addEnchantment(Enchantment.MENDING, 1);
+				if(player.hasPermission("gmoll.enchent")) {
+					if(!(args.length == 0)) {
+						if(args[1].equalsIgnoreCase("mending")) {
+							Item.addEnchantment(Enchantment.MENDING, 1);
+						} else if(args[1].equalsIgnoreCase("fireaspect")){
+							Item.addEnchantment(Enchantment.FIRE_ASPECT, 5);
+						} 
+					} else {
+						player.sendMessage("Das ist kein passendes Enchantment");
 					}
-					
+				} else {
+					player.sendMessage("Du hast dafür keine Berechtigung");
 				}
-				
+			} else {
+				player.sendMessage("Du hast diesen Befehl nicht ausführen");
 			}
-			
+		} else {
+			player.sendMessage("Dat passt net"	);
 		}
-		
-		
-		
-		
-		
-
 		return false;
 	}
 	

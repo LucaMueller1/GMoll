@@ -45,4 +45,5 @@ commands:
     permission: gmoll.genchant
     description: Winning money by gambling
   fight:
+  sign:
   
