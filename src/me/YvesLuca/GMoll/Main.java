@@ -1,13 +1,18 @@
 package me.YvesLuca.GMoll;
 
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 import com.earth2me.essentials.IEssentials;
 
 import me.YvesLuca.GMoll.cmd.*;
+
 import me.YvesLuca.GMoll.events.OneSleep;
 import me.YvesLuca.GMoll.events.Welcome;
 import me.YvesLuca.GMoll.events.Whitelister;
@@ -23,10 +28,14 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@Override
 	public void onEnable() {
+		new Config();
 		this.saveDefaultConfig();
 		pm = this.getServer().getPluginManager();
 		ess = (IEssentials) pm.getPlugin("Essentials");
 		casino = new Gamble(this, ess);
+		
+		
+		
 		
 		//register Commands
 		registercmd();
@@ -53,10 +62,8 @@ public class Main extends JavaPlugin implements Listener{
 		this.getCommand("smallestb16").setExecutor(new Smallestb16(this));
 		this.getCommand("muffintv").setExecutor(new MuffinTv(this));
 		this.getCommand("cc").setExecutor(new ChatClear(this));
-		this.getCommand("Goddude").setExecutor(new Goddude(this, ess));
 		this.getCommand("bank").setExecutor(new Bank(this, ess));
 		this.getCommand("gamble").setExecutor(casino);
-		this.getCommand("genchant").setExecutor(new Entchantments(this));
 		
 	
 	}
@@ -69,4 +76,6 @@ public class Main extends JavaPlugin implements Listener{
 		pm.registerEvents(new Bank(this, ess), this);
 		pm.registerEvents(new Welcome(this), this);
 	}
+	
+	
 }	

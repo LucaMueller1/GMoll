@@ -1,6 +1,7 @@
 
 #the amount of money you loose upon death!
 
+
 lossPercentage: 0.02
 feedAmount: 20
 neededPlayers: 1

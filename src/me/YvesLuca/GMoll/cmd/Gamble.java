@@ -131,6 +131,7 @@ public class Gamble implements CommandExecutor, Listener {
 		
 		e.setCancelled(true);
 		player.closeInventory();
+	
 
 	}
 	
