@@ -1,5 +1,7 @@
 package me.YvesLuca.GMoll.cmd;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,8 @@ public class Sign implements CommandExecutor{
 				if(!(player.hasPermission("gmoll.sign"))) {
 					player.sendMessage(ChatColor.AQUA + "Du hast keine Berechtigung dafür!");
 				} else {
+					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+					 LocalDateTime now = LocalDateTime.now();
 					ItemStack item = player.getInventory().getItemInMainHand();
 					ItemMeta meta = item.getItemMeta();
 					List<String> lore = new ArrayList<String>();
@@ -36,6 +40,7 @@ public class Sign implements CommandExecutor{
 					lore.add(ChatColor.GRAY + "");
 					lore.add(ChatColor.GRAY + "-----------------------");
 					lore.add(ChatColor.GRAY + "Signiert von " +ChatColor.RESET + ChatColor.RED + playername);
+					lore.add(ChatColor.GRAY + "Am " +ChatColor.GREEN + dtf.format(now));
 					lore.add(ChatColor.GRAY + "-----------------------");
 					meta.setLore(lore);
 					item.setItemMeta(meta);

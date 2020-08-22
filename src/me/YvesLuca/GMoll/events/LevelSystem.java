@@ -11,6 +11,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
+import com.connorlinfoot.actionbarapi.ActionBarAPI;
+
+import me.YvesLuca.GMoll.Config;
 import me.YvesLuca.GMoll.*;
 
 public class LevelSystem implements Listener {
@@ -19,9 +22,6 @@ public class LevelSystem implements Listener {
 	int level = 1;
 	int finalXP = 2;
 	
-	int i2 = 0;
-	int level2 = 1;
-	int wieviel2 = 2;
 	
 	private Main plugin;
 	
@@ -30,82 +30,60 @@ public class LevelSystem implements Listener {
 		
 	}
 
-/*	@EventHandler
-	public void onEntityDeath(EntityDeathEvent event) {
-		LivingEntity entity = event.getEntity();
-		if(entity.getType() == EntityType.CHICKEN) {
-			Player player = entity.getKiller();
-			i2++;
-			if(i2 == wieviel2) {
-				level2++;
-				wieviel2 = wieviel2*2;
-			}
-			
-			
-			String leveling = ChatColor.AQUA + "" + ChatColor.ITALIC + "Hunter Level " + level2 + " [ " + i2 + "/" + wieviel2 + " ]";
-			ActionBarAPI.sendActionBar(player, leveling);
-		}
-		
-	}
-		
-*/	
-	
-	@EventHandler
-	public void onBlockBreak(BlockBreakEvent e) throws IOException {	 
-		
 
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent e) throws IOException {
 		Block block = e.getBlock();
-		Player player = e.getPlayer();
-		if(block.getType() == Material.IRON_ORE) {
-			if(Config.contains("XP.Player")) {
-				player = Bukkit.getServer().getPlayer((String) Config.get("XP.Player.name"));
-				currentXP = (int) Config.get("XP.Player.currentXP");
-				finalXP = (int) Config.get("XP.Player.finalXP");
-				level = (int) Config.get("XP.Player.level");
+		Player playerID = e.getPlayer();
+		
+		if(block.getType().equals(Material.IRON_ORE)) {
+			if(Config.contains("Leveling." + playerID.getUniqueId().toString() + ".ID")) {
 				
-//------------------------------------------------------------------------------------------
+//-> Get int's from Config			
+			int level = (int) Config.get("Leveling." + playerID.getUniqueId().toString() + ".Level");
+			int	currentXP = (int) Config.get("Leveling." + playerID.getUniqueId().toString() + ".CurrentXP");
+			int	finalXP = (int) Config.get("Leveling."  + playerID.getUniqueId().toString() + ".FinalXP");
+			Player player = Bukkit.getPlayer((String) Config.get("Leveling." + playerID.getUniqueId().toString() + ".ID"));
+//---------------------------------------------------------------------------------------------------
+//-> Programm and save int's
 				
 				currentXP++;
-				Config.set("XP.Player.currentXP", currentXP);
+				
 				if(currentXP == finalXP) {
-					finalXP = finalXP * 2;
-					Config.set("XP.Player.finalXP", finalXP);
+					finalXP = finalXP*2;
 					level++;
-					Config.set("XP.Player.level", level);
 				}
 				
+				Config.set("Leveling." + playerID.getUniqueId().toString() + ".CurrentXP", currentXP);
+				Config.set("Leveling." + playerID.getUniqueId().toString() + ".Level", level);
+				Config.set("Leveling." + playerID.getUniqueId().toString() + ".FinalXP", finalXP);
 				
 				String leveling = ChatColor.AQUA + "" + ChatColor.ITALIC + "Mining Level " + level + " [ " + currentXP + "/" + finalXP + " ]";
-				//ActionBarAPI.sendActionBar(player, leveling);
-				player.sendMessage(leveling);
+				ActionBarAPI.sendActionBar(playerID, leveling);
+				
 			} else {
-				Config.set("XP.Player.name", player.getName().toString());
-				Config.set("XP.Player.currentXP", 1);
-				Config.set("XP.Player.finalXP", 2);
-				Config.set("XP.Player.level", 1);
-				String leveling = ChatColor.AQUA + "" + ChatColor.ITALIC + "Mining Level " + level + " [ " + currentXP + "/" + finalXP + " ]";
-				//ActionBarAPI.sendActionBar(player, leveling);
-				player.sendMessage(leveling);
-			}
+				Config.set("Leveling." + playerID.getUniqueId().toString() + ".ID", playerID.getUniqueId().toString());
+				Config.set("Leveling." + playerID.getUniqueId().toString() + ".Level", 1);
+				Config.set("Leveling." + playerID.getUniqueId().toString() + ".CurrentXP", 1);
+				Config.set("Leveling." + playerID.getUniqueId().toString() + ".FinalXP", 2);
 				
+				
+				
+				
+				if(currentXP == finalXP) {
+					
+					finalXP = finalXP*2;
+					
+					level++;
+				}
+				
+				Config.set("Leveling." + playerID.getUniqueId().toString() + ".CurrentXP", currentXP);
+//				Config.set("Leveling." + playerID.getUniqueId().toString() + ".FinalXP", finalXP);
+//				Config.set("Leveling." + playerID.getUniqueId().toString() + ".Level", level);
+				
+				String leveling = ChatColor.AQUA + "" + ChatColor.ITALIC + "Mining Level " + level + " [ " + currentXP + "/" + finalXP + " ]";
+				ActionBarAPI.sendActionBar(playerID, leveling);
 			}
-			
-			
-			
-			/*  Block block = e.getBlock();
-			 *	Player player = e.getPlayer();
-			 *  if(block.getType() == Material.IRON_ORE)
-			 *  currentXP++;
-			 *  if(currentXP == finallXP)
-			 *  finalXP = finallXP*2;
-			 *  level++;
-			 * 
-			 * 
-			 */
-			
+		}	
 	}
-		
 }
-
-	
-
